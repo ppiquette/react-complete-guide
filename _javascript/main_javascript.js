@@ -38,6 +38,9 @@ const could_not_be_changed = 67;
 //
 console.log("\n*** Arrow Functions ***")
 
+// This would be strictly equivalent to: 
+//     const printMyName = function some_function_name(name) {....}
+// It just assigns a function to printMyName 
 const printMyName = (name) => {
     console.log(name)
 };
@@ -149,6 +152,7 @@ console.log("rested: ", any_number_of_parameters_function(4, 2, 6, 7, 9));
 
 // the ... operator can also expend a Javascript "object". An object seems to be a simple container or properties
 // (kind of a C struct)
+// It uses curly braces {} to define them
 
 const old_obj = {
     name: "Patrick",
@@ -177,6 +181,7 @@ console.log(name);
 // it seems that the syntax for
 //   array is []
 //   objects is {}
+//        the "content of" a Variable (let or const) seems also to use {}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
