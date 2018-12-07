@@ -47,16 +47,31 @@ class App extends Component {
     })
   }
 
+
   render() {
+
+    // Styling could be done in external css file or "inline" by defining an object with the equivalent 
+    // of css tag. Those REACT tags will get converted into "real" css tags by webpack 
+    const button_style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    }
+    
     return (
       <div className="App">
         <h1>Hello World</h1>
         <p>It really works</p>
 
         {/* pass the function name to the onClick parameter. If we pass the function name with ending () it gets executed on render, not just on click */}
-        <button onClick={this.staticSwitchNameHandler}>Set to value in function</button>
+        
+        <p><button 
+          style = {button_style}
+          onClick={this.staticSwitchNameHandler}>Set to value in function</button></p>
         {/* now we have a parameter to the function pass to the Person component, see below for more details*/}
-        <button onClick={this.switchNameHandler.bind(this, 'Tommy')}>Set to value in function's parameter</button>
+        <p><button onClick={this.switchNameHandler.bind(this, 'Tommy')}>Set to value in function's parameter</button></p>
 
         <Person 
           name={this.state.persons[0].name} 
