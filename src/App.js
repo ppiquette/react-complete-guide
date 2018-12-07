@@ -35,6 +35,7 @@ class App extends Component {
     })
   }
   
+  // This function works with the event that is being automatically sent by the onChange in Person
   nameChangeHandler = (patate) => {
     // console.log("was clicked");
     this.setState({
@@ -54,7 +55,7 @@ class App extends Component {
 
         {/* pass the function name to the onClick parameter. If we pass the function name with ending () it gets executed on render, not just on click */}
         <button onClick={this.staticSwitchNameHandler}>Set to value in function</button>
-        {/* now we have a parameter to the function pass to the Person component*/}
+        {/* now we have a parameter to the function pass to the Person component, see below for more details*/}
         <button onClick={this.switchNameHandler.bind(this, 'Tommy')}>Set to value in function's parameter</button>
 
         <Person 
