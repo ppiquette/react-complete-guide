@@ -10,7 +10,10 @@ const Validation = (props) => {
     }
 
     return(
-        <p>{output}</p>
+        <div>
+            <p>{output}</p>
+            {props.children}
+        </div>
     )
 }
 
