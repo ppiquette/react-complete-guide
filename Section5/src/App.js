@@ -80,7 +80,8 @@ class App extends Component {
 
     return (
       <div className='App'>
-        <h1 className={className.join(' ')}>Hello World</h1>
+        <h1>Hello World</h1>
+        <p className={className.join(' ')}> Text</p>
         <p><button style={button_style} onClick={this.togglePersonHandler}>togglePersonHandler</button></p>
         {dynamic_list_persons}
       </div>
