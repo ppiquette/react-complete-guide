@@ -1,5 +1,6 @@
+
 import React, { Component } from 'react';
-import './App.css';
+import app_styles from './App.module.css';
 import Person from './Person/Person'
 
 class App extends Component {
@@ -7,9 +8,9 @@ class App extends Component {
   state = {
     persons: [
       {id: "id_787", name: "Tom", age: "39"},
-      {id: "id_kjh7", name: "Tim", age: "36"},
-      {id: "id_kjhiu", name: "Tob", age: "35"},
-      {id: "id_ky87", name: "Bobby", age: "65"}
+      {id: "id_kj7", name: "Tim", age: "36"},
+      {id: "id_hiu", name: "Tob", age: "35"},
+      {id: "id_k87", name: "Bobby", age: "65"}
     ],
     showPerson: false
   };
@@ -52,10 +53,10 @@ class App extends Component {
 
     let className = [];
     if(this.state.persons.length <= 2 ) {
-      className.push('red');
+      className.push(app_styles.red);
     }
     if(this.state.persons.length <= 1) {
-      className.push('bold');
+      className.push(app_styles.bold);
     }
 
     let dynamic_list_persons = null
@@ -81,7 +82,7 @@ class App extends Component {
     }
 
     return (
-      <div className='App'>
+      <div className={app_styles.App}>
         <h1>Hello World</h1>
         {/* style defined in css files applied , we only insert the class name here*/}
         <p className={className.join(' ')}> Text</p>
