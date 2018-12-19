@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'
-import Radium, {StyleRoot} from 'radium'
 
 class App extends Component {
   // state is only available since we are extending Component
@@ -49,10 +48,6 @@ class App extends Component {
       border: '1px solid blue',
       padding: '8px',
       cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
     }
 
     let className = [];
@@ -67,10 +62,7 @@ class App extends Component {
     if(this.state.showPerson) {
       // This overwrite the content of the button style when we show all persons
       button_style.backgroundColor = 'red';
-      button_style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
+  
       dynamic_list_persons = (
         <div>
           {this.state.persons.map((person, index) => {
@@ -89,19 +81,17 @@ class App extends Component {
     }
 
     return (
-      <StyleRoot>
-        <div className='App'>
-          <h1>Hello World</h1>
-          {/* style defined in css files applied , we only insert the class name here*/}
-          <p className={className.join(' ')}> Text</p>
-          {/* style defined in local variable (inline style) */}
-          <p><button style={button_style} onClick={this.togglePersonHandler}>togglePersonHandler</button></p>
-          {dynamic_list_persons}
-        </div>
-      </StyleRoot>
+      <div className='App'>
+        <h1>Hello World</h1>
+        {/* style defined in css files applied , we only insert the class name here*/}
+        <p className={className.join(' ')}> Text</p>
+        {/* style defined in local variable (inline style) */}
+        <p><button style={button_style} onClick={this.togglePersonHandler}>togglePersonHandler</button></p>
+        {dynamic_list_persons}
+      </div>
     );
   }
 }
 
 // Radium is used to wrap our component in order to understanf pseudo selectors (ex button:hover)
-export default Radium(App);
+export default App;
