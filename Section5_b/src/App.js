@@ -42,28 +42,18 @@ class App extends Component {
   }
 
   render() {
-    const button_style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-    }
-
-    let className = [];
+    let appClasses = [];
+    let buttonClass = '';
+    
     if(this.state.persons.length <= 2 ) {
-      className.push(app_styles.red);
+      appClasses.push(app_styles.red);
     }
     if(this.state.persons.length <= 1) {
-      className.push(app_styles.bold);
+      appClasses.push(app_styles.bold);
     }
 
     let dynamic_list_persons = null
     if(this.state.showPerson) {
-      // This overwrite the content of the button style when we show all persons
-      button_style.backgroundColor = 'red';
-  
       dynamic_list_persons = (
         <div>
           {this.state.persons.map((person, index) => {
@@ -79,20 +69,18 @@ class App extends Component {
           })}
         </div>
       )
+      buttonClass = app_styles.Red
     }
 
     return (
       <div className={app_styles.App}>
         <h1>Hello World</h1>
-        {/* style defined in css files applied , we only insert the class name here*/}
-        <p className={className.join(' ')}> Text</p>
-        {/* style defined in local variable (inline style) */}
-        <p><button style={button_style} onClick={this.togglePersonHandler}>togglePersonHandler</button></p>
+        <p className={appClasses.join(' ')}>Text</p>
+        <button className={buttonClass} onClick={this.togglePersonHandler}>Show/Hide Persons</button>
         {dynamic_list_persons}
       </div>
     );
   }
 }
 
-// Radium is used to wrap our component in order to understanf pseudo selectors (ex button:hover)
 export default App;
