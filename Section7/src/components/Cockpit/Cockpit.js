@@ -19,8 +19,8 @@ const cockpit = (props) => {
 
     return (
         <div className={cockpit_styles.Cockpit}>
-            <h1>Hello World</h1>
-            <p className={textClasses.join(' ')}>Text</p>
+            <h1>{props.app_title}</h1>
+            <p className={textClasses.join(' ')}>Some text</p>
             <button className={buttonClass} onClick={props.togglePersonHandler}>Show/Hide Persons</button>
         </div>
     );
