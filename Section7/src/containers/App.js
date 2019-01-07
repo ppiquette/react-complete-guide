@@ -1,7 +1,8 @@
 
 import React, { Component } from 'react';
 import app_styles from './App.module.css';
-import Person from './Person/Person'
+import Persons from '../components/Persons/Persons'
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
   // state is only available since we are extending Component
@@ -39,41 +40,25 @@ class App extends Component {
   }
 
   render() {
-    let appClasses = [];
-    let buttonClass = '';
-    
-    if(this.state.persons.length <= 2 ) {
-      appClasses.push(app_styles.red);
-    }
-    if(this.state.persons.length <= 1) {
-      appClasses.push(app_styles.bold);
-    }
 
     let dynamic_list_persons = null
     if(this.state.showPerson) {
       dynamic_list_persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return (
-              <Person
-                key={person.id}
-                click={() => this.deleteHandler(index)}
-                name={person.name} 
-                age={person.age}
-                changed={(event) => this.nameChangeHandler(event, person.id)}
-              />
-            )
-          })}
-        </div>
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deleteHandler}
+            changed={this.nameChangeHandler}
+          />
       )
-      buttonClass = app_styles.Red
     }
 
     return (
       <div className={app_styles.App}>
-        <h1>Hello World</h1>
-        <p className={appClasses.join(' ')}>Text</p>
-        <button className={buttonClass} onClick={this.togglePersonHandler}>Show/Hide Persons</button>
+        <Cockpit
+          shown={this.state.showPerson}
+          all_persons={this.state.persons}
+          togglePersonHandler={this.togglePersonHandler}
+        />
         {dynamic_list_persons}
       </div>
     );
