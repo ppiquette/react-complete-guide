@@ -4,7 +4,27 @@ import Person from './Person/Person';
 
 class Persons extends Component {
   
+  constructor(props){
+    super(props);
+    console.log("[Persons.js] in constructor", props)
+  }
+
+  componentWillMount() {
+    console.log("[Persons.js] in componentWillMount")
+  }
+
+  componentDidMount() {
+    console.log("[Persons.js] in componentDidMount")
+  }
+
+  componentWillUnmount() {
+    // Component is about to get removed => Perform any cleanup work here!
+    console.log("[Persons.js] in componentWillUnmount");
+}
   render() {
+
+    console.log("[Persons.js] in render")
+
     return(this.props.persons.map((person, index) => {
         return (
           <Person

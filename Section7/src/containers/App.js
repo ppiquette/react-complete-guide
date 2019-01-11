@@ -5,16 +5,29 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
-  // state is only available since we are extending Component
-  state = {
-    persons: [
-      {id: "id_787", name: "Tom", age: "39"},
-      {id: "id_kj7", name: "Tim", age: "36"},
-      {id: "id_hiu", name: "Tob", age: "35"},
-      {id: "id_k87", name: "Bobby", age: "65"}
-    ],
-    showPerson: false
-  };
+
+  constructor(props){
+    super(props);
+    console.log("[App.js] in constructor", props)
+  
+    this.state = {
+      persons: [
+        {id: "id_787", name: "Tom", age: "39"},
+        {id: "id_kj7", name: "Tim", age: "36"},
+        {id: "id_hiu", name: "Tob", age: "35"},
+        {id: "id_k87", name: "Bobby", age: "65"}
+      ],
+      showPerson: false
+    };
+  }
+
+  componentWillMount() {
+    console.log("[App.js] in componentWillMount")
+  }
+
+  componentDidMount() {
+    console.log("[App.js] in componentDidMount")
+  }
   
   deleteHandler = (index) => {
     console.log("deleting index: ", {index})
@@ -40,6 +53,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("[App.js] in render")
 
     let dynamic_list_persons = null
     if(this.state.showPerson) {

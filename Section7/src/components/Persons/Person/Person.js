@@ -3,16 +3,34 @@ import person_style from './Person.module.css';
 
 class Person extends Component {
 
-    render() {
-        console.log("Person", this.props.name, "updated")
+    constructor(props){
+        super(props);
+        console.log("[Person.js] in constructor", props)
+      }
+    
+    componentWillMount() {
+        console.log("[Person.js] in componentWillMount")
+    }
+    
+    componentDidMount() {
+        console.log("[Person.js] in componentDidMount")
+    }
 
-        return (
-            <div className={person_style.Person}>
-                <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
-                <input type="Text" onChange={this.props.changed} value={this.props.name} />
-                {this.props.children}
-            </div>        
-        )
+    componentWillUnmount() {
+        // Component is about to get removed => Perform any cleanup work here!
+        console.log("[Person.js] in componentWillUnmount");
+    }
+
+    render() {
+      console.log("[Person.js] in render")
+
+      return (
+          <div className={person_style.Person}>
+              <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
+              <input type="Text" onChange={this.props.changed} value={this.props.name} />
+              {this.props.children}
+          </div>        
+      )
     }
 }
 
