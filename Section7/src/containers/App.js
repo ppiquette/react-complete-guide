@@ -3,7 +3,8 @@ import React, { PureComponent } from 'react';
 import app_styles from './App.module.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
-import WithClass from '../components/hoc/WithClass'
+// import WithClass from '../components/hoc/WithClass'
+import compWrapperWithClass from '../components/hoc/compWrapperWithClass'
 
 class App extends PureComponent {
 
@@ -88,7 +89,19 @@ class App extends PureComponent {
     }
 
     return (
-      <WithClass classes={app_styles.App}>
+      // <WithClass classes={app_styles.App}>
+      //   <button onClick={this.showPersonHandler}>Show Persons</button>
+
+      //   <Cockpit
+      //     app_title={this.props.title} 
+      //     shown={this.state.showPerson}
+      //     all_persons={this.state.persons}
+      //     togglePersonHandler={this.togglePersonHandler}
+      //   />
+      //   {dynamic_list_persons}
+      // </WithClass>
+
+      <>
         <button onClick={this.showPersonHandler}>Show Persons</button>
 
         <Cockpit
@@ -98,9 +111,9 @@ class App extends PureComponent {
           togglePersonHandler={this.togglePersonHandler}
         />
         {dynamic_list_persons}
-      </WithClass>
+      </>
     );
   }
 }
 
-export default App;
+export default compWrapperWithClass(App, app_styles.App);

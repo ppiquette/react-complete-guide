@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import person_style from './Person.module.css';
-import WithClass from '../../hoc/WithClass'
+import compWrapperWithClass from '../../hoc/compWrapperWithClass'
+
 
 class Person extends PureComponent {
 
@@ -38,14 +39,14 @@ class Person extends PureComponent {
         console.log("[Person.js] in render")
 
         return (
-            <WithClass className={person_style.Person}>
-                <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
-                <input type="Text" onChange={this.props.changed} value={this.props.name} />
-                {this.props.children}
-            </WithClass>        
+        <>
+            <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
+            <input type="Text" onChange={this.props.changed} value={this.props.name} />
+            {this.props.children}
+        </>   
         )
     }
 }
 
-export default Person
+export default compWrapperWithClass(Person, person_style.Person)
 
