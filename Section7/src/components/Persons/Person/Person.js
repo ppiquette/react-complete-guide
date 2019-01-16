@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import person_style from './Person.module.css';
+import WithClass from '../../hoc/WithClass'
 
 class Person extends PureComponent {
 
@@ -37,11 +38,11 @@ class Person extends PureComponent {
         console.log("[Person.js] in render")
 
         return (
-            <div className={person_style.Person}>
+            <WithClass className={person_style.Person}>
                 <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
                 <input type="Text" onChange={this.props.changed} value={this.props.name} />
                 {this.props.children}
-            </div>        
+            </WithClass>        
         )
     }
 }

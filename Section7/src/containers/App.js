@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import app_styles from './App.module.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
+import WithClass from '../components/hoc/WithClass'
 
 class App extends PureComponent {
 
@@ -87,7 +88,7 @@ class App extends PureComponent {
     }
 
     return (
-      <div className={app_styles.App}>
+      <WithClass classes={app_styles.App}>
         <button onClick={this.showPersonHandler}>Show Persons</button>
 
         <Cockpit
@@ -97,7 +98,7 @@ class App extends PureComponent {
           togglePersonHandler={this.togglePersonHandler}
         />
         {dynamic_list_persons}
-      </div>
+      </WithClass>
     );
   }
 }
