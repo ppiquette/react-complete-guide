@@ -19,7 +19,8 @@ class App extends PureComponent {
         {id: "id_hiu", name: "Tob", age: "35"},
         {id: "id_k87", name: "Bobby", age: "65"}
       ],
-      showPerson: false
+      showPerson: false,
+      toggleCounter: 0
     };
   }
 
@@ -63,9 +64,20 @@ class App extends PureComponent {
   }
 
   togglePersonHandler = (event) => {
-    this.setState(
-      {showPerson: !this.state.showPerson}
-    )
+
+    // Here there is 2 ways of preventing race codition on the asynchronous setState function. First,
+    // save the value of state.showPerson into a local variable and use it in setState(). Second, pass 
+    // a function to setState with the prevState being "magically" filled by React. 
+    // From the web: 
+    //   If you pass a function as the first argument of setState, React will call it with the 
+    //   at-call-time-current state and expect you to return an Object to merge into state. 
+    const doesShow = this.state.showPerson;
+    this.setState((prevState, props) => {
+      return {
+        showPerson: !doesShow,
+        toggleCounter: prevState.toggleCounter + 1
+      }
+    })
   }
 
   showPersonHandler = () => {
@@ -77,6 +89,7 @@ class App extends PureComponent {
   render() {
     console.log("[App.js] in render")
 
+  
     let dynamic_list_persons = null
     if(this.state.showPerson) {
       dynamic_list_persons = (
@@ -89,6 +102,11 @@ class App extends PureComponent {
     }
 
     return (
+
+      // This commented code was using the WithClass functional component to wrap the elements
+      // into one div and passing the style. The code is now replaced by the component wrapper
+      // compWrapperWithClass that is set in the export statement at the end of this file
+
       // <WithClass classes={app_styles.App}>
       //   <button onClick={this.showPersonHandler}>Show Persons</button>
 
@@ -102,6 +120,9 @@ class App extends PureComponent {
       // </WithClass>
 
       <>
+
+        <p> {this.state.toggleCounter} </p>
+
         <button onClick={this.showPersonHandler}>Show Persons</button>
 
         <Cockpit
