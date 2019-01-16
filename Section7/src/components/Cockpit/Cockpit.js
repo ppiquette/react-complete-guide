@@ -1,13 +1,14 @@
 import React from 'react'
 import cockpit_styles from './Cockpit.module.css';
+import Aux from '../../hoc/Aux'
 
 const cockpit = (props) => {
     
     let textClasses = [];
-    let buttonClass = '';
+    let buttonClass = cockpit_styles.Button;
     
     if(props.shown) {
-        buttonClass=cockpit_styles.red
+        buttonClass=[cockpit_styles.Button, cockpit_styles.Red].join(' ');
     }
 
     if(props.all_persons.length <= 2 ) {
@@ -18,11 +19,11 @@ const cockpit = (props) => {
     }
 
     return (
-        <div className={cockpit_styles.Cockpit}>
+        <Aux>
             <h1>{props.app_title}</h1>
             <p className={textClasses.join(' ')}>Some text</p>
             <button className={buttonClass} onClick={props.togglePersonHandler}>Show/Hide Persons</button>
-        </div>
+        </Aux>
     );
 }
 

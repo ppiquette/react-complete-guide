@@ -10,17 +10,36 @@ class Persons extends Component {
   }
 
   componentWillMount() {
-    console.log("[Persons.js] in componentWillMount")
+    console.log("[CREATE Persons.js] in componentWillMount")
   }
 
   componentDidMount() {
-    console.log("[Persons.js] in componentDidMount")
+    console.log("[CREATE Persons.js] in componentDidMount")
   }
 
   componentWillUnmount() {
-    // Component is about to get removed => Perform any cleanup work here!
-    console.log("[Persons.js] in componentWillUnmount");
-}
+    console.log("[CREATE Persons.js] in componentWillUnmount");
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("[UPDATE Persons.js] in componentWillReceiveProps", nextProps);
+  }
+
+  // NOT required anymore since it is don in the PureComponent we are extending
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log("[UPDATE Persons.js] in shouldComponentUpdate", nextProps, nextState);
+  //   return nextProps.persons !== this.props.persons
+  //   // return true;
+  // }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("[UPDATE Persons.js] in componentWillUpdate", nextProps, nextState);
+  }
+
+  componentDidUpdate(){
+    console.log("[UPDATE Persons.js] in componentDidUpdate");
+  }
+
   render() {
 
     console.log("[Persons.js] in render")

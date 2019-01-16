@@ -1,10 +1,10 @@
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import app_styles from './App.module.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 
-class App extends Component {
+class App extends PureComponent {
 
   constructor(props){
     super(props);
@@ -28,7 +28,21 @@ class App extends Component {
   componentDidMount() {
     console.log("[App.js] in componentDidMount")
   }
-  
+
+  // NOT required anymore since it is don in the PureComponent we are extending
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log("[UPDATE App.js] in shouldComponentUpdate", nextProps, nextState);
+  //   return JSON.stringify(this.state) !== JSON.stringify(nextState);
+  // }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log("[UPDATE App.js] in componentWillUpdate", nextProps, nextState);
+  }
+
+  componentDidUpdate(){
+    console.log("[UPDATE App.js] in componentDidUpdate");
+  }
+
   deleteHandler = (index) => {
     console.log("deleting index: ", {index})
     const updated_persons = this.state.persons.slice()
@@ -52,6 +66,12 @@ class App extends Component {
     )
   }
 
+  showPersonHandler = () => {
+    this.setState(
+      {showPerson: true}
+    )
+  }
+
   render() {
     console.log("[App.js] in render")
 
@@ -68,6 +88,8 @@ class App extends Component {
 
     return (
       <div className={app_styles.App}>
+        <button onClick={this.showPersonHandler}>Show Persons</button>
+
         <Cockpit
           app_title={this.props.title} 
           shown={this.state.showPerson}
