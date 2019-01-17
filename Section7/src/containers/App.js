@@ -14,10 +14,10 @@ class App extends PureComponent {
   
     this.state = {
       persons: [
-        {id: "id_787", name: "Tom", age: "39"},
-        {id: "id_kj7", name: "Tim", age: "36"},
-        {id: "id_hiu", name: "Tob", age: "35"},
-        {id: "id_k87", name: "Bobby", age: "65"}
+        {id: "id_787", name: "Tom", age: 39},
+        {id: "id_kj7", name: "Tim", age: 36},
+        {id: "id_hiu", name: "Tob", age: 35},
+        {id: "id_k87", name: "Bobby", age: 65}
       ],
       showPerson: false,
       toggleCounter: 0

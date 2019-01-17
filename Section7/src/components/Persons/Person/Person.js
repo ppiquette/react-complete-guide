@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import person_style from './Person.module.css';
 import compWrapperWithClass from '../../hoc/compWrapperWithClass'
+import PropTypes from 'prop-types'
 
 
 class Person extends PureComponent {
@@ -16,6 +17,11 @@ class Person extends PureComponent {
     
     componentDidMount() {
         console.log("[Person.js] in componentDidMount")
+
+        // Using the ref define inside the input element
+        if (this.props.index == 0){
+            this.nameOfNewProperty.focus()
+        }
     }
 
     componentWillUnmount() {
@@ -41,11 +47,22 @@ class Person extends PureComponent {
         return (
         <>
             <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
-            <input type="Text" onChange={this.props.changed} value={this.props.name} />
+            <input 
+                ref={(anyname) => {this.nameOfNewProperty = anyname} }
+                type="Text" 
+                onChange={this.props.changed} 
+                value={this.props.name} />
             {this.props.children}
         </>   
         )
     }
+}
+
+Person.propTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
 }
 
 export default compWrapperWithClass(Person, person_style.Person)
