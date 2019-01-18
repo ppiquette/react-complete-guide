@@ -23,6 +23,7 @@ const cockpit = (props) => {
             <h1>{props.app_title}</h1>
             <p className={textClasses.join(' ')}>Some text</p>
             <button className={buttonClass} onClick={props.togglePersonHandler}>Show/Hide Persons</button>
+            <button onClick={props.loginFct}>Login</button>
         </Aux>
     );
 }

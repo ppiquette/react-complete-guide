@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react'
 import person_style from './Person.module.css';
 import compWrapperWithClass from '../../hoc/compWrapperWithClass'
 import PropTypes from 'prop-types'
-
+import { AuthContext } from '../../../containers/App' 
 
 class Person extends PureComponent {
 
     constructor(props){
         super(props);
-        console.log("[Person.js] in constructor", props)
+        console.log("[Person.js] in constructor", props);
+        this.nameOfNewProperty = React.createRef();
     }
     
     componentWillMount() {
@@ -18,10 +19,16 @@ class Person extends PureComponent {
     componentDidMount() {
         console.log("[Person.js] in componentDidMount")
 
-        // Using the ref define inside the input element
-        if (this.props.index == 0){
-            this.nameOfNewProperty.focus()
-        }
+        // Using the ref define inside the input element. The following will focus the Person with index 0
+        // if (this.props.index === 0){
+        //     this.nameOfNewProperty.current.focus()
+        // }
+        // this.focusInput();
+    }
+
+    // Focus function that can be potentially called from outside 
+    focusInput() {
+        this.nameOfNewProperty.current.focus();
     }
 
     componentWillUnmount() {
@@ -46,9 +53,14 @@ class Person extends PureComponent {
 
         return (
         <>
+            {/* This context bypass Persons and all other hoc in between. It is directly imported in this object*/}
+            <AuthContext.Consumer>
+                {(auth) => auth ? <p>I'm authenticated</p> : null}
+            </AuthContext.Consumer>
+
             <p onClick={this.props.click}>I'm a {this.props.name} of {this.props.age}!!!</p>
             <input 
-                ref={(anyname) => {this.nameOfNewProperty = anyname} }
+                ref={this.nameOfNewProperty}
                 type="Text" 
                 onChange={this.props.changed} 
                 value={this.props.name} />
