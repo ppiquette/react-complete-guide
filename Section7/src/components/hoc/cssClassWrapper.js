@@ -13,25 +13,25 @@ import React, { Component } from 'react'
 // }
 
 // The previous returned function could also have been a returned class (with no name)
-// The previous can be uncomment instead of the following
-const compWrapperWithClass = (WrappedComponent, className) => {
+// The firts parameter is what makes the component different. That way, it is intended 
+// to be used in the "export" statement
+const cssClassWrapper = (WrappedComponent, className) => {
 
-    // The returned value is now stored in a var (F for function) so it can be used for ref forwarding
+    // The returned value is now stored in a var (F) so it can be used for ref forwarding
     const F = class extends Component {
         render() {
             return (
                 <div className={className}>
-                    <WrappedComponent {...this.props} />
+                    <WrappedComponent ref={this.props.forwardedRef} {...this.props} />
                 </div>
             )
-
         }
     }
-    // The forwardRef function creates, I think, one more layer of component that enable us to tunnel through 
-    // high level components
+    // The forwardRef function creates one more layer of component named "ForwardRef" that enable us to tunnel through 
+    // an underlying high level components
     return React.forwardRef((props, ref) => {
         return <F {...props} forwardedRef={ref}/>;
     })
 }
 
-export default compWrapperWithClass
+export default cssClassWrapper

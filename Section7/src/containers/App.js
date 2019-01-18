@@ -4,7 +4,7 @@ import app_styles from './App.module.css';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 // import WithClass from '../components/hoc/WithClass'
-import compWrapperWithClass from '../components/hoc/compWrapperWithClass'
+import cssClassWrapper from '../components/hoc/cssClassWrapper'
 
 
 export const AuthContext = React.createContext(false);
@@ -131,7 +131,6 @@ class App extends PureComponent {
       // </WithClass>
 
       <>
-
         <p> {this.state.toggleCounter} </p>
 
         <button onClick={this.showPersonHandler}>Show Persons</button>
@@ -151,4 +150,4 @@ class App extends PureComponent {
   }
 }
 
-export default compWrapperWithClass(App, app_styles.App);
+export default cssClassWrapper(App, app_styles.App);

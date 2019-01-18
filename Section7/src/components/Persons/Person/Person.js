@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import person_style from './Person.module.css';
-import compWrapperWithClass from '../../hoc/compWrapperWithClass'
+import cssClassWrapper from '../../hoc/cssClassWrapper'
 import PropTypes from 'prop-types'
 import { AuthContext } from '../../../containers/App' 
 
@@ -49,7 +49,7 @@ class Person extends PureComponent {
     }
 
     render() {
-        console.log("[Person.js] in render")
+        console.log("[Person.js] in render");
 
         return (
         <>
@@ -77,5 +77,5 @@ Person.propTypes = {
     changed: PropTypes.func
 }
 
-export default compWrapperWithClass(Person, person_style.Person)
+export default cssClassWrapper(Person, person_style.Person)
 

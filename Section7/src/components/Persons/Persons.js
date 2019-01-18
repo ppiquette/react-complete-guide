@@ -15,7 +15,7 @@ class Persons extends Component {
 
   componentDidMount() {
     console.log("[CREATE Persons.js] in componentDidMount");
-    // this.personWithInputToFocus.current.focusInput();  
+    this.personWithInputToFocus.current.focusInput();
   }
 
   componentWillUnmount() {
