@@ -68,6 +68,15 @@ class App extends PureComponent {
     this.setState({persons: updated_persons})
   }
 
+  getSnapshotBeforeUpdate() {
+    console.log("[UPDATE App.js] in getSnapshotBeforeUpdate");
+
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log("[UPDATE App.js] in getDerivedStateFromProps", nextProps, prevState);
+  }
+
   togglePersonHandler = (event) => {
 
     // Here there is 2 ways of preventing race codition on the asynchronous setState function. First,

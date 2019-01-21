@@ -28,4 +28,5 @@ const cockpit = (props) => {
     );
 }
 
-export default cockpit
+// the memo wrapper is exactly the same effect then a class extending PureComponent but for a function. 
+export default React.memo(cockpit)
