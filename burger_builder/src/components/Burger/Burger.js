@@ -10,19 +10,22 @@ const burger = (props) => {
             // Create a number of empty element in an array then run again map to set the content
             // equal to the <BurgerIngredient ...> line
             return [...Array(props.ingredients[ingredientkey])].map((_, index) => { 
-                return (
-                    <BurgerIngredient key={ingredientkey+index} type={ingredientkey}/>
-                )
+                        return (
+                            <BurgerIngredient key={ingredientkey+index} type={ingredientkey}/>
+                        )
             })
         })
+        .reduce((previousVal, currentVal) => {
+            return previousVal.concat(currentVal);
+        }, [])
 
-    return (
-        <div className={cssClasses.Burger}>
-            <BurgerIngredient type='bread-top'/>
-            {transformedIngredients}
-            <BurgerIngredient type='bread-bottom'/>
-        </div>
-    )
+        return (
+            <div className={cssClasses.Burger}>
+                <BurgerIngredient type='bread-top'/>
+                {transformedIngredients.length > 0 ? transformedIngredients : "Select some ingredients"}
+                <BurgerIngredient type='bread-bottom'/>
+            </div>
+        )
 }
 
 export default burger
