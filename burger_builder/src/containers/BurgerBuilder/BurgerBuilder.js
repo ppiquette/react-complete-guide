@@ -62,18 +62,15 @@ class BurgerBuilder extends Component {
             enableOrderNow += ingredients[key];
         }
  
-        let modalSummary = null
-        if(this.state.showSummary) {
-            modalSummary = (
-                <Modal>
-                    <OrderSummary ingredients={{...this.state.ingredients}}></OrderSummary>
-                </Modal>
-            )
-        }
 
         return (
             <Aux>
-                {modalSummary}
+                {/* To use the Transition defined in the modal.module.css, can add and remove 
+                the Modal element from the DOM. It needs to be Transform (a css property)*/}
+                <Modal show={this.state.showSummary}>
+                    <OrderSummary ingredients={{...this.state.ingredients}}/>
+                </Modal>
+
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls 
                     ingredientRemoved={this.removeIngredientHandler}
