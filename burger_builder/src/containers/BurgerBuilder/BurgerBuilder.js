@@ -2,7 +2,8 @@ import React , { Component } from 'react'
 import Aux from '../../hoc/Aux'
 import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
-
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -21,7 +22,8 @@ class BurgerBuilder extends Component {
             cheese:0,
             meat: 0
         },
-        totalPrice: 4.0
+        totalPrice: 4.0,
+        showSummary: false
     }
 
     ingredientChange = (type, amount) => {
@@ -44,6 +46,10 @@ class BurgerBuilder extends Component {
         }
     }
 
+    showSummaryHandler = () => {
+        this.setState({showSummary: true})
+    }
+
     render(){
         const disabledLess = {...this.state.ingredients};
         for (let key in disabledLess){
@@ -55,9 +61,19 @@ class BurgerBuilder extends Component {
         for (let key in ingredients){
             enableOrderNow += ingredients[key];
         }
-    
+ 
+        let modalSummary = null
+        if(this.state.showSummary) {
+            modalSummary = (
+                <Modal>
+                    <OrderSummary ingredients={{...this.state.ingredients}}></OrderSummary>
+                </Modal>
+            )
+        }
+
         return (
             <Aux>
+                {modalSummary}
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls 
                     ingredientRemoved={this.removeIngredientHandler}
@@ -65,6 +81,7 @@ class BurgerBuilder extends Component {
                     disabledLess={disabledLess}
                     enableOrderNow={enableOrderNow}
                     price={this.state.totalPrice}
+                    showSummary={this.showSummaryHandler}
                 />
             </Aux>
         )
