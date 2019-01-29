@@ -50,6 +50,14 @@ class BurgerBuilder extends Component {
         this.setState({showSummary: true})
     }
 
+    cancelPurchaseHandler = () => {
+        this.setState({showSummary: false})
+    }
+
+    continuePurchaseHandler = () => {
+        alert('You continued')
+    }
+
     render(){
         const disabledLess = {...this.state.ingredients};
         for (let key in disabledLess){
@@ -67,8 +75,14 @@ class BurgerBuilder extends Component {
             <Aux>
                 {/* To use the Transition defined in the modal.module.css, can add and remove 
                 the Modal element from the DOM. It needs to be Transform (a css property)*/}
-                <Modal show={this.state.showSummary}>
-                    <OrderSummary ingredients={{...this.state.ingredients}}/>
+                <Modal 
+                    show={this.state.showSummary}
+                    backdropClicked={this.cancelPurchase}>
+                    <OrderSummary 
+                        ingredients={{...this.state.ingredients}}
+                        cancelPurchase={this.cancelPurchaseHandler}
+                        continuePurchase={this.continuePurchaseHandler}
+                    />
                 </Modal>
 
                 <Burger ingredients={this.state.ingredients}/>
