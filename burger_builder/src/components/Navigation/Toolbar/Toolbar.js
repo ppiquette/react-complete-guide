@@ -3,12 +3,16 @@ import cssClasses from './Toolbar.module.css'
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 
-const Toolbar = () => {
+const Toolbar = (props) => {
     return (
         <header className={cssClasses.Toolbar}>
-            <div>MENU</div>
-            <Logo/>
-            <nav>
+            <div onClick={props.menuClicked}>MENU</div>
+
+            <div className={[cssClasses.Logo, cssClasses.DesktopOnly].join(' ')}>
+                <Logo />
+            </div>
+               
+            <nav className={cssClasses.DesktopOnly}>
                 <NavigationItems/>
             </nav>
         </header>
