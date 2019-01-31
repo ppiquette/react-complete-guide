@@ -7,7 +7,7 @@ import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
 
 class Layout extends Component {
     state = {
-        showDrawer: true
+        showDrawer: false
     } 
 
     hideSideDrawerHandler = () => {
@@ -21,11 +21,13 @@ class Layout extends Component {
     render() {
         return (
             <Aux>
+                <Toolbar menuClicked={this.showSideDrawerHandler}/>
+                
                 <SideDrawer
                     backdropClicked={this.hideSideDrawerHandler} 
                     show={this.state.showDrawer}
                 />
-                <Toolbar menuClicked={this.showSideDrawerHandler}/>
+                
                 <main className={cssClasses.Content}>
                     {this.props.children}
                 </main>
