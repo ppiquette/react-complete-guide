@@ -11,7 +11,7 @@ class Blog extends Component {
     state = {
         allPosts: [],
         allUsers: [],
-        selectedPostIndex: -1
+        selectedPostId: -1
     }
 
     receivePostsHandler = (responsePosts) => {
@@ -31,10 +31,7 @@ class Blog extends Component {
     }
 
     postSelectedHandler = (id) => {
-        let index = this.state.allPosts.findIndex((el) => {
-            return(el.id === id)
-        });
-        this.setState({selectedPostIndex: index});
+        this.setState({selectedPostId: id});
     }
 
     render () {
@@ -56,13 +53,6 @@ class Blog extends Component {
             )
         })
 
-        let title = "Please select a Post!"
-        let content = ""
-        if(this.state.allPosts.length > 0 && this.state.selectedPostIndex >= 0) {
-            title = this.state.allPosts[this.state.selectedPostIndex].title
-            content = this.state.allPosts[this.state.selectedPostIndex].body
-        }
-
         return (
             <div>
                 <section className="Posts">
@@ -70,8 +60,7 @@ class Blog extends Component {
                 </section>
                 <section>
                     <FullPost 
-                        title={title}
-                        content={content}
+                        id={this.state.selectedPostId}
                     />
                 </section>
                 <section>
