@@ -4,7 +4,8 @@ import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
 import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
-import Axios from 'axios';
+// import Axios from 'axios';
+import Axios from '../../axios'
 
 class Blog extends Component {
 
@@ -23,10 +24,10 @@ class Blog extends Component {
     }
 
     componentDidMount(){
-        Axios.get('https://jsonplaceholder.typicode.com/posts')
+        Axios.get('/posts')
             .then(this.receivePostsHandler);
 
-        Axios.get('https://jsonplaceholder.typicode.com/users')
+        Axios.get('/users')
             .then(this.receiveUsersHandler)
     }
 
