@@ -5,6 +5,7 @@ import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Axios from '../../axios-orders';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -24,7 +25,8 @@ class BurgerBuilder extends Component {
             meat: 0
         },
         totalPrice: 4.0,
-        showSummary: false
+        purchasing: false,
+        loading: false
     }
 
     ingredientChange = (type, amount) => {
@@ -47,15 +49,16 @@ class BurgerBuilder extends Component {
         }
     }
 
-    showSummaryHandler = () => {
-        this.setState({showSummary: true})
+    purchasingHandler = () => {
+        this.setState({purchasing: true})
     }
 
     cancelPurchaseHandler = () => {
-        this.setState({showSummary: false})
+        this.setState({purchasing: false})
     }
 
     continuePurchaseHandler = () => {
+        this.setState({loading: true})
         const order = {
             ingredients: this.state.ingredients,
             price: this.state.price,
@@ -71,8 +74,12 @@ class BurgerBuilder extends Component {
         }
         // .json is because we use Google Firebase
         Axios.post('/orders.json', order)
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+            .then(response => {
+                this.setState({loading: false, purchasing: false})
+            })
+            .catch(error => {
+                this.setState({loading: false, purchasing: false})
+            });
     }
 
     render(){
@@ -87,20 +94,29 @@ class BurgerBuilder extends Component {
             enableOrderNow += ingredients[key];
         }
  
+        let orderSummary = (
+            <OrderSummary 
+                ingredients={{...this.state.ingredients}}
+                cancelPurchase={this.cancelPurchaseHandler}
+                continuePurchase={this.continuePurchaseHandler}
+                price={this.state.totalPrice}
+            />
+        )
+        if (this.state.loading){
+            orderSummary = (
+                <Spinner></Spinner>
+            )
+        }
 
         return (
             <Aux>
                 {/* To use the Transition defined in the modal.module.css, can add and remove 
                 the Modal element from the DOM. It needs to be Transform (a css property)*/}
                 <Modal 
-                    show={this.state.showSummary}
+                    show={this.state.purchasing}
                     backdropClicked={this.cancelPurchase}>
-                    <OrderSummary 
-                        ingredients={{...this.state.ingredients}}
-                        cancelPurchase={this.cancelPurchaseHandler}
-                        continuePurchase={this.continuePurchaseHandler}
-                        price={this.state.totalPrice}
-                    />
+
+                    {orderSummary}
                 </Modal>
 
                 <Burger ingredients={this.state.ingredients}/>
@@ -110,7 +126,7 @@ class BurgerBuilder extends Component {
                     disabledLess={disabledLess}
                     enableOrderNow={enableOrderNow}
                     price={this.state.totalPrice}
-                    showSummary={this.showSummaryHandler}
+                    purchasing={this.purchasingHandler}
                 />
             </Aux>
         )

@@ -6,7 +6,7 @@ import Aux from '../../../hoc/Aux';
 class Modal extends Component {
 
     shouldComponentUpdate(nextprops) {
-        return this.props.show !== nextprops.show;
+        return (this.props.show !== nextprops.show) || (nextprops.children !== this.props.children);
     }
 
     render() {
@@ -14,7 +14,8 @@ class Modal extends Component {
             <Aux>
                 <Backdrop 
                     show={this.props.show} 
-                    backdropClicked={this.props.backdropClicked}/>
+                    backdropClicked={this.props.backdropClicked}
+                />
                 <div 
                     className={cssClasses.Modal}
                     style={{
