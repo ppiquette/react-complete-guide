@@ -6,6 +6,7 @@ import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -114,8 +115,8 @@ class BurgerBuilder extends Component {
                 the Modal element from the DOM. It needs to be Transform (a css property)*/}
                 <Modal 
                     show={this.state.purchasing}
-                    backdropClicked={this.cancelPurchase}>
-
+                    backdropClicked={this.cancelPurchaseHandler}
+                >
                     {orderSummary}
                 </Modal>
 
@@ -134,4 +135,4 @@ class BurgerBuilder extends Component {
 
 }
 
-export default BurgerBuilder;
+export default withErrorHandler(BurgerBuilder, Axios);
