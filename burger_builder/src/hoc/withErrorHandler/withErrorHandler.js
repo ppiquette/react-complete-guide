@@ -8,7 +8,7 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
             error: null
         }
 
-        componentDidMount(){
+        componentWillMount(){
             axiosInstance.interceptors.request.use(
                 request => {
                     // reset error on retry
