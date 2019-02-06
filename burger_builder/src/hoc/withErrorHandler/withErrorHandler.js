@@ -8,8 +8,10 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
             error: null
         }
 
+
+
         componentWillMount(){
-            axiosInstance.interceptors.request.use(
+            this.requestInterceptor = axiosInstance.interceptors.request.use(
                 request => {
                     // reset error on retry
                     this.setState({error: null})
@@ -22,7 +24,7 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
                 }
             )
 
-            axiosInstance.interceptors.response.use(
+            this.responseInterceptor = axiosInstance.interceptors.response.use(
                 response => response, 
                 error => {
                     console.log(error);
@@ -30,6 +32,14 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
                     return Promise.reject(error);
                 }
             )
+        }
+
+        componentWillUnmount(){
+            // Otherwise the interceptors are never cleaned up and if we use this hoc in 
+            // components that get often deleted, the interceptor will not be released and it 
+            // will create memory leak.
+            axiosInstance.interceptors.request.reject(this.requestInterceptor);
+            axiosInstance.interceptors.response.reject(this.responseInterceptor);
         }
 
         closeErrorMessage = () =>{
