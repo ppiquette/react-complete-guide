@@ -17,8 +17,15 @@
     color: black;
 }
 
-.Blog a:hover,
-.Blog a:active {
-    color: blue;
-    background-color: grey;
+.Blog a:hover{
+    color: orange;
+}
+
+.Blog a.myActiveClassName {
+    color: orange;
+    background-color: lightgray;
+}
+
+.Blog h1:active {
+    color: purple;
 }

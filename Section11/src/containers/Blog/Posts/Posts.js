@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Post from '../../../components/Post/Post';
 import Axios from '../../../axios';
+import {Link} from 'react-router-dom';
+
 import './Posts.css';
+
 
 class Posts extends Component {
     
@@ -24,6 +27,8 @@ class Posts extends Component {
     }
 
     componentDidMount(){
+    console.log(this.props);
+
         Axios.get('/posts')
             .then(this.receivePostsHandler);
 
@@ -41,12 +46,17 @@ class Posts extends Component {
             }
 
             return(
-                <Post
+                <Link 
+                    to={'/post/' + post.id}
                     key={post.id}
-                    title={post.title}
-                    author={author}
-                    postClicked={() => this.postSelectedHandler(post.id)}
-                />
+                >
+                    <Post
+                        
+                        title={post.title}
+                        author={author}
+                        postClicked={() => this.postSelectedHandler(post.id)}
+                    />
+                </Link>
             )
         })
 

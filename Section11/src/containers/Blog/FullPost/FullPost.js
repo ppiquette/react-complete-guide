@@ -3,16 +3,23 @@ import React, { Component } from 'react';
 import './FullPost.css';
 import Axios from 'axios';
 
+// This imported component make sure to pass routing information to the wrapped component
+import { withRouter } from 'react-router-dom'
+
 class FullPost extends Component {    
 
     state = {
         post: null
     }
 
-    componentDidUpdate() {
-        if (this.props.id >= 0) { 
-            if (this.state.post === null || (this.state.post.id !== this.props.id)){
-                Axios.get('/posts/' + this.props.id)
+
+    componentDidMount() {
+        console.log(this.props);
+
+        let id = this.props.match.params.id; 
+        if (id >= 0) { 
+            if (this.state.post === null || (this.state.post.id !== id)){
+                Axios.get('/posts/' + id)
                     .then(response => { this.setState({ post: response.data }) })
                     .catch(error => {console.log("Error occured") })
             }
@@ -47,4 +54,4 @@ class FullPost extends Component {
     }
 }
 
-export default FullPost;
+export default withRouter(FullPost);
