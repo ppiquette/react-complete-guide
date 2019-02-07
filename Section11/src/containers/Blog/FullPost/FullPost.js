@@ -12,18 +12,24 @@ class FullPost extends Component {
         post: null
     }
 
-
-    componentDidMount() {
-        console.log(this.props);
-
-        let id = this.props.match.params.id; 
+    fetchPost = () => {
+        let id = this.props.match.params.id;
         if (id >= 0) { 
-            if (this.state.post === null || (this.state.post.id !== id)){
+            if (this.state.post === null || (this.state.post.id != id)){
                 Axios.get('/posts/' + id)
                     .then(response => { this.setState({ post: response.data }) })
                     .catch(error => {console.log("Error occured") })
             }
         }
+
+    }
+
+    componentDidMount() {
+        this.fetchPost()
+    }
+    
+    componentDidUpdate() {
+        this.fetchPost()
     }
     
     deletePostHandler = () => {

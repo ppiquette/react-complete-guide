@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Posts from './Posts/Posts'
 import { Route , NavLink, Switch } from 'react-router-dom'
 import NewPost from './NewPost/NewPost'
-import FullPost from './FullPost/FullPost'
 
 
 import './Blog.css';
@@ -36,9 +35,8 @@ class Blog extends Component {
                 {/* Switch component is used to tell Router to stop when it finds one valid route. Otherwise,
                     it would display *all* matching routes */}
                 <Switch>
-                    <Route path="/" exact component={Posts}/>
-                    <Route path="/post/:id" component={FullPost}/>
                     <Route path="/new-post" exact component={NewPost}/>
+                    <Route path="/" component={Posts}/>
                 </Switch>
             </div>
         );
