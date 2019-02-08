@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 
 import './NewPost.css';
 import Axios from 'axios';
+import { Redirect } from "react-router-dom"
 
 class NewPost extends Component {
     state = {
         title: 'Enter title here',
         content: '',
-        author: 'Max'
+        author: 'Max',
+        submitted: false
     }
 
     postDataHandler = () => {
@@ -17,12 +19,16 @@ class NewPost extends Component {
             author: this.state.author
         }
         Axios.post('https://jsonplaceholder.typicode.com/posts', post)
-            .then(response => {console.log(response)})
+            .then(
+                response => {
+                    this.setState({submitted: true})
+                })
     }
 
     componentDidMount() {
         console.log(this.props);
     }
+
 
     render () {
         return (
@@ -38,6 +44,7 @@ class NewPost extends Component {
                     <option value="Manu">Manu</option>
                 </select>
                 <button onClick={this.postDataHandler}>Add Post</button>
+                {this.state.submitted ? <Redirect to="/"/> : null}
             </div>
         );
     }

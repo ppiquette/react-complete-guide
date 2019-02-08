@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Post from '../../../components/Post/Post';
 import Axios from '../../../axios';
-// import {Link} from 'react-router-dom';
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import FullPost from '../FullPost/FullPost'
 
 import './Posts.css';
@@ -17,8 +16,8 @@ class Posts extends Component {
 
     postSelectedHandler = (id) => {
         // Here we do the change of page programmatically but we could have simply 
-        // use a <Link> element arount <Post> (see below)
-        this.props.history.push('/' + id);
+        // use a <Link> element arount <Post> . This could also be used to redirect.
+        this.props.history.push('/posts/' + id);
     }
 
     receivePostsHandler = (responsePosts) => {
@@ -30,8 +29,6 @@ class Posts extends Component {
     }
 
     componentDidMount(){
-    console.log(this.props);
-
         Axios.get('/posts')
             .then(this.receivePostsHandler);
 
@@ -49,19 +46,16 @@ class Posts extends Component {
             }
 
             return(
-                // <Link 
-                //     to={'/post/' + post.id}
-                //     key={post.id}
-                // >
-                    <Post
-                        key={post.id}
-                        title={post.title}
-                        author={author}
-                        postClicked={() => this.postSelectedHandler(post.id)}
-                    />
-                // </Link>
+                <Post
+                    key={post.id}
+                    title={post.title}
+                    author={author}
+                    postClicked={() => this.postSelectedHandler(post.id)}
+                />
             )
         })
+
+        console.log(this.props);
 
         return (
             <div>
@@ -70,7 +64,10 @@ class Posts extends Component {
                 </section>
                 {/* Adding the this.props.match.url make the Route relative so it can 
                     be used from anywhere */}
-                <Route path={this.props.match.url + ':id'} component={FullPost}/>
+                <Switch>
+                    <Route path={this.props.match.url + '/:id'} component={FullPost}/>
+                    <Route path={this.props.match.url} component={FullPost}/>
+                </Switch>
             </div>
         );
     }
