@@ -1,0 +1,11 @@
+
+.App header {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+}
+
+.App a {
+    font-weight: bold;
+    padding: 20px;
+}
