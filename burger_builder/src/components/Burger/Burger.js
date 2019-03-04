@@ -7,8 +7,8 @@ const burger = (props) => {
     // Get an array of all the keys from our props
     const transformedIngredients = Object.keys(props.ingredients)
         .map(ingredientkey => {
-            // Create a number of empty element in an array then run again map to set the content
-            // equal to the <BurgerIngredient ...> line
+            // Go through all types of ingredients (first map) than create an Array of the size of 
+            // the number of each ingredient filled with  the <BurgerIngredient ...> (second map)
             return [...Array(props.ingredients[ingredientkey])].map((_, index) => { 
                         return (
                             <BurgerIngredient key={ingredientkey+index} type={ingredientkey}/>

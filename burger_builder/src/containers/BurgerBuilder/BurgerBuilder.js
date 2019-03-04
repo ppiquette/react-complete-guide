@@ -7,6 +7,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Checkout from '../Checkout/Checkout';
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -15,12 +16,13 @@ const INGREDIENTS_PRICE = {
     bacon: 0.7
 }
 
+const valid_appstate = ["builder", "summary", "checkout", "submitting"]
+
 class BurgerBuilder extends Component {
 
     state = {
         ingredients: null,
-        purchasing: false,
-        summittingPurchase: false,
+        appstate: "builder",
     }
 
     componentDidMount(){
@@ -56,15 +58,27 @@ class BurgerBuilder extends Component {
         }
     }
 
-    purchasingHandler = () => {
-        this.setState({purchasing: true})
+    inSummary = () => {
+        this.setState({appstate: "summary"})
     }
 
-    cancelPurchaseHandler = () => {
-        this.setState({purchasing: false})
+    cancelInSummary = () => {
+        this.setState({appstate: "builder"})
     }
 
-    continuePurchaseHandler = () => {
+    inCheckout = () => {
+        this.setState({appstate: "checkout"})
+    }
+
+    cancelInCheckout = () => {
+        this.setState({appstate: "builder"})
+    }
+
+    summaryToCheckout = () => {
+        this.setState({appstate: "checkout"})
+    }
+
+    purchaseHandler = () => {
         this.setState({summittingPurchase: true});
         const order = {
             ingredients: this.state.ingredients,
@@ -81,10 +95,10 @@ class BurgerBuilder extends Component {
         // .json is because we use Google Firebase
         Axios.post('/orders.json', order)
             .then(response => {
-                this.setState({summittingPurchase: false, purchasing: false})
+                this.setState({appstate: "builder"})
             })
             .catch(error => {
-                this.setState({summittingPurchase: false, purchasing: false})
+                this.setState({appstate: "builder"})
             });
     }
 
@@ -105,8 +119,8 @@ class BurgerBuilder extends Component {
         let orderSummary = (
             <OrderSummary 
                 ingredients={{...this.state.ingredients}}
-                cancelPurchase={this.cancelPurchaseHandler}
-                continuePurchase={this.continuePurchaseHandler}
+                cancelPurchase={this.cancelInSummary}
+                continuePurchase={this.summaryToCheckout}
                 price={totalPrice}
             />
         )
@@ -116,6 +130,13 @@ class BurgerBuilder extends Component {
             )
         }
 
+        let orderCheckout = (
+            <Checkout
+                ingredients={this.state.ingredients}
+                checkout={this.purchaseHandler}
+                returnToBuilder={this.cancelInCheckout}
+            />
+        )
 
         let burgerElements = (
             <>
@@ -126,7 +147,7 @@ class BurgerBuilder extends Component {
                     disabledLess={disabledLess}
                     enableOrderNow={enableOrderNow}
                     price={totalPrice}
-                    purchasing={this.purchasingHandler}
+                    toSummary={this.inSummary}
                 />
             </>
         )
@@ -135,6 +156,7 @@ class BurgerBuilder extends Component {
             burgerElements = (
                 <Spinner/>
             )
+            orderCheckout = null
         }
 
         return (
@@ -142,10 +164,17 @@ class BurgerBuilder extends Component {
                 {/* To use the Transition defined in the modal.module.css, can add and remove 
                 the Modal element from the DOM. It needs to be Transform (a css property)*/}
                 <Modal 
-                    show={this.state.purchasing}
-                    backdropClicked={this.cancelPurchaseHandler}
+                    show={this.state.appstate === "summary"}
+                    backdropClicked={this.cancelInSummary}
                 >
                     {orderSummary}
+                </Modal>
+
+                <Modal 
+                    show={this.state.appstate === "checkout"}
+                    backdropClicked={this.cancelInCheckout}
+                >
+                    {orderCheckout}
                 </Modal>
 
                 {burgerElements}
