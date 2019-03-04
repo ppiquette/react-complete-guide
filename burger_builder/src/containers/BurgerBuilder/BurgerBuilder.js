@@ -8,6 +8,8 @@ import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Checkout from '../Checkout/Checkout';
+import {Link} from 'react-router-dom'
+
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -131,12 +133,13 @@ class BurgerBuilder extends Component {
         }
 
         let orderCheckout = (
-            <Checkout
-                ingredients={this.state.ingredients}
-                checkout={this.purchaseHandler}
-                returnToBuilder={this.cancelInCheckout}
-            />
-        )
+            // <Checkout
+            //     ingredients={this.state.ingredients}
+            //     checkout={this.purchaseHandler}
+            //     returnToBuilder={this.cancelInCheckout}
+            // />
+            <Link to='/checkout' />
+            )
 
         let burgerElements = (
             <>
