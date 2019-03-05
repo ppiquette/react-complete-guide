@@ -48,7 +48,7 @@ class Checkout extends Component {
         Axios.post('/orders.json', order)
             .then(response => {
                 this.setState({summittingPurchase: false});
-                this.props.history.push('/');
+                this.props.history.replace('/');
             })
             .catch(error => {
                 this.setState({summittingPurchase: false});  
@@ -72,7 +72,7 @@ class Checkout extends Component {
                         key = {burger.uniqueID}
                         ingredients = {burger.ingredients}
                         checkout = {this.purchaseHandler}
-                        returnToBuilder = {() => {this.props.history.push('/')}}
+                        returnToBuilder = {() => {this.props.history.replace('/')}}
                     />
                 )} )
             )

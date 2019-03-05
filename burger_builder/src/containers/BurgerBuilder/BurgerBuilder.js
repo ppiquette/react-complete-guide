@@ -16,7 +16,7 @@ const INGREDIENTS_PRICE = {
     bacon: 0.7
 }
 
-const valid_appstate = ["builder", "summary", "submitting"]
+// const valid_appstate = ["builder", "summary", "submitting"]
 
 class BurgerBuilder extends Component {
 
@@ -60,7 +60,6 @@ class BurgerBuilder extends Component {
     }
 
     inSummary = (event) => {
-        const test = this.props.history
         this.setState({appstate: "summary"})
     }
 
@@ -69,7 +68,6 @@ class BurgerBuilder extends Component {
     }
 
     summaryToCheckout = () => { 
-        console.log(this.props.match)
         this.props.history.push({
             pathname: "/checkout",
             state:{
@@ -78,8 +76,6 @@ class BurgerBuilder extends Component {
         });
     }
     
-
-
     render(){
         const disabledLess = {...this.state.ingredients};
         for (let key in disabledLess){
@@ -142,6 +138,4 @@ class BurgerBuilder extends Component {
 
 }
 
-// export default withErrorHandler(BurgerBuilder, Axios);
-
-export default withRouter(BurgerBuilder, Axios);
+export default withErrorHandler(withRouter(BurgerBuilder), Axios);

@@ -36,8 +36,8 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
             // Otherwise the interceptors are never cleaned up and if we use this hoc in 
             // components that get often deleted, the interceptor will not be released and it 
             // will create memory leak.
-            // axiosInstance.interceptors.request.reject(this.requestInterceptor);
-            // axiosInstance.interceptors.response.reject(this.responseInterceptor);
+            axiosInstance.interceptors.request.eject(this.requestInterceptor);
+            axiosInstance.interceptors.response.eject(this.responseInterceptor);
         }
 
         closeErrorMessage = () =>{
