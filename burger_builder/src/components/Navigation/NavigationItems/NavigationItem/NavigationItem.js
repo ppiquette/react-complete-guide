@@ -12,11 +12,6 @@ const NavigationItem = (props) => {
             >
                 {props.children}
             </Link>
-
-            {/* <a 
-                href={props.link}
-                className={props.active ? cssClasses.active : null}
-            >{props.children}</a> */}
         </li>
     );
 };

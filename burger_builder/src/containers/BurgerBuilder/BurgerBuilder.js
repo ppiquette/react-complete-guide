@@ -7,9 +7,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import Checkout from '../Checkout/Checkout';
-import {Link} from 'react-router-dom'
-
+import {withRouter} from 'react-router-dom'
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -18,7 +16,7 @@ const INGREDIENTS_PRICE = {
     bacon: 0.7
 }
 
-const valid_appstate = ["builder", "summary", "checkout", "submitting"]
+const valid_appstate = ["builder", "summary", "submitting"]
 
 class BurgerBuilder extends Component {
 
@@ -58,9 +56,11 @@ class BurgerBuilder extends Component {
         if(this.state.ingredients[type] > 0 ) {
             this.ingredientChange (type, -1);
         }
+        console.log(this.props)
     }
 
-    inSummary = () => {
+    inSummary = (event) => {
+        const test = this.props.history
         this.setState({appstate: "summary"})
     }
 
@@ -68,41 +68,17 @@ class BurgerBuilder extends Component {
         this.setState({appstate: "builder"})
     }
 
-    inCheckout = () => {
-        this.setState({appstate: "checkout"})
+    summaryToCheckout = () => { 
+        console.log(this.props.match)
+        this.props.history.push({
+            pathname: "/checkout",
+            state:{
+                ingredients: this.state.ingredients
+            }
+        });
     }
+    
 
-    cancelInCheckout = () => {
-        this.setState({appstate: "builder"})
-    }
-
-    summaryToCheckout = () => {
-        this.setState({appstate: "checkout"})
-    }
-
-    purchaseHandler = () => {
-        this.setState({summittingPurchase: true});
-        const order = {
-            ingredients: this.state.ingredients,
-            customer: {
-                name: 'Pat',
-                address: {
-                    address: 'HGJHV',
-                    zipCode: '67765'
-                },
-                email: 'ytfty@.test.com'
-            },
-            deliveryMethod: 'asap'
-        }
-        // .json is because we use Google Firebase
-        Axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({appstate: "builder"})
-            })
-            .catch(error => {
-                this.setState({appstate: "builder"})
-            });
-    }
 
     render(){
         const disabledLess = {...this.state.ingredients};
@@ -126,21 +102,7 @@ class BurgerBuilder extends Component {
                 price={totalPrice}
             />
         )
-        if (this.state.summittingPurchase){
-            orderSummary = (
-                <Spinner/>
-            )
-        }
-
-        let orderCheckout = (
-            // <Checkout
-            //     ingredients={this.state.ingredients}
-            //     checkout={this.purchaseHandler}
-            //     returnToBuilder={this.cancelInCheckout}
-            // />
-            <Link to='/checkout' />
-            )
-
+ 
         let burgerElements = (
             <>
                 <Burger ingredients={this.state.ingredients}/>
@@ -159,10 +121,10 @@ class BurgerBuilder extends Component {
             burgerElements = (
                 <Spinner/>
             )
-            orderCheckout = null
         }
 
-        return (
+
+        return ( 
             <Aux>
                 {/* To use the Transition defined in the modal.module.css, can add and remove 
                 the Modal element from the DOM. It needs to be Transform (a css property)*/}
@@ -173,13 +135,6 @@ class BurgerBuilder extends Component {
                     {orderSummary}
                 </Modal>
 
-                <Modal 
-                    show={this.state.appstate === "checkout"}
-                    backdropClicked={this.cancelInCheckout}
-                >
-                    {orderCheckout}
-                </Modal>
-
                 {burgerElements}
             </Aux>
         )
@@ -187,4 +142,6 @@ class BurgerBuilder extends Component {
 
 }
 
-export default withErrorHandler(BurgerBuilder, Axios);
+// export default withErrorHandler(BurgerBuilder, Axios);
+
+export default withRouter(BurgerBuilder, Axios);
