@@ -8,15 +8,14 @@ import DrawerToggle from '../SideDrawer/DrawerToggle/DrawerToggle';
 const Toolbar = (props) => {
     return (
         <header className={cssClasses.Toolbar}>
-            <DrawerToggle menuClicked={props.menuClicked}/>
-
-            <div className={[cssClasses.Logo, cssClasses.DesktopOnly].join(' ')}>
-                <Logo />
-            </div>
-               
-            <nav className={cssClasses.DesktopOnly}>
-                <NavigationItems/>
-            </nav>
+           <DrawerToggle menuClicked={props.menuClicked} />
+           <div className={[cssClasses.Logo, cssClasses.DesktopOnly].join(' ')}>
+               <Logo />
+           </div>
+           
+           <nav className={cssClasses.DesktopOnly}>
+               <NavigationItems />
+           </nav>
         </header>
     );
 };

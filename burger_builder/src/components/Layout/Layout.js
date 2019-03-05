@@ -4,6 +4,7 @@ import Aux from '../../hoc/Aux'
 import cssClasses from './layout.module.css'
 import Toolbar from "../Navigation/Toolbar/Toolbar";
 import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
+import {withRouter} from 'react-router-dom'
 
 class Layout extends Component {
     state = {
@@ -36,4 +37,4 @@ class Layout extends Component {
     }
 };
 
-export default Layout;
+export default withRouter(Layout);
