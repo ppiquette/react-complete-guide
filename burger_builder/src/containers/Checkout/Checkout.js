@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import {Route} from 'react-router-dom'
+import ContactData from './ContactData/ContactData';
+
 
 class Checkout extends Component {
     
@@ -55,8 +58,12 @@ class Checkout extends Component {
             });
     }
 
-    render() {
+    checkoutClicked = () => {
+        console.log(this.props.match.path)
+        this.props.history.push(this.props.match.path + '/contactdata')
+    }
 
+    render() {
         let spinner = null;
         if (this.state.summittingPurchase){
             spinner = (
@@ -71,7 +78,7 @@ class Checkout extends Component {
                     <CheckoutSummary
                         key = {burger.uniqueID}
                         ingredients = {burger.ingredients}
-                        checkout = {this.purchaseHandler}
+                        checkout = {this.checkoutClicked}
                         returnToBuilder = {() => {this.props.history.replace('/')}}
                     />
                 )} )
@@ -82,6 +89,7 @@ class Checkout extends Component {
             <>
                 {summary}
                 {spinner}
+                <Route path={this.props.match.path + '/contactdata'} component={ContactData} />
             </>
         );
     }
