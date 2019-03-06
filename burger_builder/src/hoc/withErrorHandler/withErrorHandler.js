@@ -13,6 +13,7 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
                 request => {
                     // reset error on retry
                     this.setState({error: null})
+                    console.log(request)
                     return request;
                 }, 
                 error => {
@@ -23,7 +24,10 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
             )
 
             this.responseInterceptor = axiosInstance.interceptors.response.use(
-                response => response, 
+                response => {
+                    console.log(response)
+                    return response
+                }, 
                 error => {
                     console.log(error);
                     this.setState({error: error})

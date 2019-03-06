@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import Axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import {Route} from 'react-router-dom'
 import ContactData from './ContactData/ContactData';
@@ -31,31 +30,6 @@ class Checkout extends Component {
             listOfBurgers.push(newBurger)
             this.setState({burgers: listOfBurgers})
         }
-    }
-
-    purchaseHandler = () => {
-        this.setState({summittingPurchase: true});
-        const order = {
-            burgers: this.state.burgers,
-            customer: {
-                name: 'Pat',
-                address: {
-                    address: 'HGJHV',
-                    zipCode: '67765'
-                },
-                email: 'ytfty@.test.com'
-            },
-            deliveryMethod: 'asap'
-        }
-        // .json is because we use Google Firebase
-        Axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({summittingPurchase: false});
-                this.props.history.replace('/');
-            })
-            .catch(error => {
-                this.setState({summittingPurchase: false});  
-            });
     }
 
     checkoutClicked = () => {
@@ -89,7 +63,8 @@ class Checkout extends Component {
             <>
                 {summary}
                 {spinner}
-                <Route path={this.props.match.path + '/contactdata'} component={ContactData} />
+                {/* Passing the ingredients using "render" instead of "component" */}
+                <Route path={this.props.match.path + '/contactdata'} render={() => (<ContactData burgers={this.state.burgers}/>)} />
             </>
         );
     }
