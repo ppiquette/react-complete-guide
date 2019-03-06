@@ -3,7 +3,7 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import Spinner from '../../components/UI/Spinner/Spinner';
 import {Route} from 'react-router-dom'
 import ContactData from './ContactData/ContactData';
-
+import uID from '../../util/uniqueID'
 
 class Checkout extends Component {
     
@@ -16,25 +16,22 @@ class Checkout extends Component {
         burgers: []
     }
 
-    uniqueID = () => {
-        // Math.random should be unique because of its seeding algorithm.
-        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-        // after the decimal.
-        return '_' + Math.random().toString(36).substr(2, 9);
-    };
-
     componentDidMount(){
         if(this.props.location.state){
             let listOfBurgers = this.state.burgers;
-            let newBurger = {...this.props.location.state, uniqueID: this.uniqueID()}
+            let newBurger = {...this.props.location.state, uniqueID: uID}
             listOfBurgers.push(newBurger)
             this.setState({burgers: listOfBurgers})
         }
     }
 
     checkoutClicked = () => {
-        console.log(this.props.match.path)
-        this.props.history.push(this.props.match.path + '/contactdata')
+        this.props.history.push({
+            pathname: this.props.match.path + '/contactdata',
+            state:{
+                burgers: this.state.burgers
+            }
+        });
     }
 
     render() {
@@ -64,7 +61,7 @@ class Checkout extends Component {
                 {summary}
                 {spinner}
                 {/* Passing the ingredients using "render" instead of "component" */}
-                <Route path={this.props.match.path + '/contactdata'} render={() => (<ContactData burgers={this.state.burgers}/>)} />
+                <Route path={this.props.match.path + '/contactdata'} component={ContactData} />
             </>
         );
     }

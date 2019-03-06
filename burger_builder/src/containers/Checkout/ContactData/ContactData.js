@@ -3,11 +3,12 @@ import Button from '../../../components/UI/Button/Button';
 import cssClasses from './ContactData.module.css'
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Axios from '../../../axios-orders';
-import {withRouter} from 'react-router-dom'
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import {withRouter} from 'react-router-dom'
 
 class ContactData extends Component {
     state = {
+        burgers: null,
         summittingPurchase: false,
         name: '',
         email: '',
@@ -16,17 +17,22 @@ class ContactData extends Component {
             code: ''
         }
     }
+
+    componentDidMount(){
+        this.setState({burgers: this.props.location.state.burgers})
+    }
+
     onSubmitHandler = (event) => {
         // Prevent send the request and reloading the page 
         event.preventDefault()
 
         this.setState({summittingPurchase: true});
         const order = {
-            burgers: this.props.burgers,
+            burgers: this.state.burgers,
             customer: {
                 name: this.state.name,
                 address: {
-                    street: this.state.address.street,
+                    street: this.state.address.street,  
                     code: this.state.address.code
                 },
                 email: this.state.email

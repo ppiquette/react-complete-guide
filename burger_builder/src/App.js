@@ -5,6 +5,7 @@ import {BrowserRouter} from 'react-router-dom'
 import {Route, Switch} from 'react-router'
 import Checkout from './containers/Checkout/Checkout';
 import NoFound from './components/UI/NoFound/NoFound';
+import Orders from './containers/Orders/Orders';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
 
             <Switch>
               <Route path="/checkout" component={Checkout} />
+              <Route path="/orders" component={Orders} />
               <Route exact path="/" component={BurgerBuilder} />
               <Route component={NoFound} />
             </Switch>
