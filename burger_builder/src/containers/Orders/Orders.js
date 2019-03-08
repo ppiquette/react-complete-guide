@@ -12,7 +12,6 @@ class Orders extends Component {
         // .json is because we use Google Firebase
         Axios.get('/orders.json')
             .then(response => {
-                let resp = Object.values(response.data)
                 this.setState({orders: Object.values(response.data)})
             })
             .catch(error => {

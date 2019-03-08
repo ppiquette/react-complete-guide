@@ -1,5 +1,6 @@
 import React from 'react';
 import cssClasses from './Order.module.css'
+import {uniqueID} from '../../util/uniqueID'
 
 const Order = (props) => {
     let burgers = props.item.burgers
@@ -8,14 +9,14 @@ const Order = (props) => {
         
         let ingredients = []
         for(let key in burger.ingredients) {
-            ingredients.push(<span className={cssClasses.Ingredient}>{key}: {burger.ingredients[key]}</span>)
+            ingredients.push(<span key={key} className={cssClasses.Ingredient}>{key}: {burger.ingredients[key]}</span>)
         }
 
         return(
-            <>
+            <div key={uniqueID()}>
                 <p>Burger #{index+1}</p>
                 {ingredients}
-            </>
+            </div>
             )
         })
     
