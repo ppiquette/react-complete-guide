@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from '../../axios-orders'
 import Order from '../../components/Order/Order';
-import uID from '../../util/uniqueID'
+import {uniqueID} from '../../util/uniqueID'
 
 class Orders extends Component {
     state = {
@@ -25,7 +25,7 @@ class Orders extends Component {
         if(this.state.orders){
             display = this.state.orders.map((item) => { 
                 return(
-                    <Order key={uID} item={item}></Order>
+                    <Order key={uniqueID()} item={item}></Order>
                 )
             })
         }
