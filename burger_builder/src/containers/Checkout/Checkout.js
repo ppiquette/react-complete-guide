@@ -3,7 +3,7 @@ import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSumm
 import Spinner from '../../components/UI/Spinner/Spinner';
 import {Route} from 'react-router-dom'
 import ContactData from './ContactData/ContactData';
-import uID from '../../util/uniqueID'
+import {uniqueID} from '../../util/uniqueID'
 
 class Checkout extends Component {
     
@@ -19,7 +19,7 @@ class Checkout extends Component {
     componentDidMount(){
         if(this.props.location.state){
             let listOfBurgers = this.state.burgers;
-            let newBurger = {...this.props.location.state, uniqueID: uID}
+            let newBurger = {...this.props.location.state, uniqueID: uniqueID()}
             listOfBurgers.push(newBurger)
             this.setState({burgers: listOfBurgers})
         }
