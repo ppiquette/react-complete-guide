@@ -76,7 +76,6 @@ class ContactData extends Component {
         let customer = {}
         const formEntries = Object.entries(this.state.orderForm)
         for(const [key, value] of formEntries){
-            console.log(key, value)
             if (value.value !== ''){
                 // The following both are equivalent
                 // customer = {...customer, [key]: value.value}
@@ -101,8 +100,6 @@ class ContactData extends Component {
     }
 
     onChangeValueHandler = (event, key) => {
-        this.state.orderForm[key].value = event.target.value
-        
         // The following is done to create a new element that does refer to the original 
         // state. The ... operator doesn't deep copy the object, it only copies the first level.
         const currentOrderForm = {...this.state.orderForm}
@@ -125,7 +122,6 @@ class ContactData extends Component {
             inputDisplay.push(
                 <Input 
                     key={key}
-                    name={key} 
                     label={this.capitalizeFirstLetter(key)}
                     elementtype={value.elementtype} 
                     elementconfig={value.elementconfig} 
