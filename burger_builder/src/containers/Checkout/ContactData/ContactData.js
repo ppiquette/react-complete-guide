@@ -12,11 +12,49 @@ class ContactData extends Component {
     state = {
         burgers: null,
         summittingPurchase: false,
-        name: '',
-        email: '',
-        address: {
-            street: '',
-            code: ''
+        orderForm: {
+            name: {
+                elementtype: 'input',
+                elementconfig: {
+                    type: 'text',
+                    placeholder: 'Your name'
+                },
+                value: ''
+            },
+            email: {
+                elementtype: 'input',
+                elementconfig: {
+                    type: 'email',
+                    placeholder: 'Your email'
+                },
+                value: ''
+            },
+            street:  {
+                elementtype: 'input',
+                elementconfig: {
+                    type: 'text',
+                    placeholder: 'Street'
+                },
+                value: ''
+            },
+            code:  {
+                elementtype: 'input',
+                elementconfig: {
+                    type: 'text',
+                    placeholder: 'ZipCode'
+                },
+                value: ''
+            },
+            deliveryMethod:  {
+                elementtype: 'select',
+                elementconfig: {
+                    options: [
+                        {value: 'fastest',  displayValue: 'Fastest'},
+                        {value: 'cheapest',  displayValue: 'Cheapest'}
+                    ]
+                },
+                value: 'fastest'
+            }
         }
     }
 
@@ -29,18 +67,24 @@ class ContactData extends Component {
         event.preventDefault()
 
         this.setState({summittingPurchase: true});
-        const order = {
+        
+        let order = {
             burgers: this.state.burgers,
-            customer: {
-                name: this.state.name,
-                address: {
-                    street: this.state.address.street,  
-                    code: this.state.address.code
-                },
-                email: this.state.email
-            },
-            deliveryMethod: 'asap'
+            customer: []
         }
+
+        let customer = {}
+        const formEntries = Object.entries(this.state.orderForm)
+        for(const [key, value] of formEntries){
+            console.log(key, value)
+            if (value.value !== ''){
+                // The following both are equivalent
+                // customer = {...customer, [key]: value.value}
+                customer[key] = value.value
+            }
+        }
+        order.customer = customer
+        
         // .json is because we use Google Firebase
         Axios.post('/orders.json', order)
             .then(response => {
@@ -52,11 +96,42 @@ class ContactData extends Component {
             });
     }
 
-    render() {
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
+    onChangeValueHandler = (event, key) => {
+        this.state.orderForm[key].value = event.target.value
+        
+        // The following is done to create a new element that does refer to the original 
+        // state. The ... operator doesn't deep copy the object, it only copies the first level.
+        const currentOrderForm = {...this.state.orderForm}
+        const currentOrderFormKeyElement = {...currentOrderForm[key]}
+        
+        currentOrderFormKeyElement.value = event.target.value
+        currentOrderForm[key] = currentOrderFormKeyElement
+        this.setState({orderForm: currentOrderForm})
+    }
+
+    render() {
         let spinner = null;
         if(this.state.summittingPurchase){
             spinner = <Spinner />
+        }
+
+        let inputDisplay = []
+        const entries = Object.entries(this.state.orderForm);
+        for(const [key, value] of entries){
+            inputDisplay.push(
+                <Input 
+                    key={key}
+                    name={key} 
+                    label={this.capitalizeFirstLetter(key)}
+                    elementtype={value.elementtype} 
+                    elementconfig={value.elementconfig} 
+                    value={value.value}
+                    onChange={(event) => this.onChangeValueHandler(event, key)} />
+            )
         }
 
         return (
@@ -64,10 +139,7 @@ class ContactData extends Component {
 
                 <h4>Enter your contact data</h4>
                 <form onSubmit={this.onSubmitHandler}>
-                    <Input inputtype="input" type='text' name='name' placeholder='You Name' onChange={(event) => this.setState({name: event.target.value})} />
-                    <Input inputtype="input" type='email' name='email' placeholder='Your email' onChange={(event) => this.setState({email: event.target.value})}/>
-                    <Input inputtype="input" type='text' name='street' placeholder='Delivery Street' onChange={(event) => this.setState({address: {street: event.target.value, code: this.state.address.code}})} />
-                    <Input inputtype="input" type='text' name='postal' placeholder='Delivery Postal Code' onChange={(event) => this.setState({address: {street: this.state.address.street, code: event.target.value}})} />
+                    {inputDisplay}
                     <Button buttonType='Success' >Submit</Button>
                 </form>
 
