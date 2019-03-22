@@ -70,7 +70,7 @@ class BurgerBuilder extends Component {
     summaryToCheckout = () => { 
         this.props.history.push({
             pathname: "/checkout",
-            state:{
+            newburger:{
                 ingredients: this.state.ingredients
             }
         });

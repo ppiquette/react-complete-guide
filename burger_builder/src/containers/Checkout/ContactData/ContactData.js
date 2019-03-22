@@ -5,6 +5,8 @@ import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import {withRouter} from 'react-router-dom'
+import Input from '../../../components/UI/Input/Input'
+
 
 class ContactData extends Component {
     state = {
@@ -19,7 +21,7 @@ class ContactData extends Component {
     }
 
     componentDidMount(){
-        this.setState({burgers: this.props.location.state.burgers})
+        this.setState({burgers: this.props.location.burgers})
     }
 
     onSubmitHandler = (event) => {
@@ -59,13 +61,13 @@ class ContactData extends Component {
 
         return (
             <div className={cssClasses.ContactData}>
+
                 <h4>Enter your contact data</h4>
                 <form onSubmit={this.onSubmitHandler}>
-                    <Input type='text' name='name' placeholder='Billy-Bob' onChange={(event) => this.setState({name: event.target.value})} />
-                    {/* <input className={cssClasses.Input} type='text' name='name' placeholder='Billy-Bob' onChange={(event) => this.setState({name: event.target.value})} /> */}
-                    <input className={cssClasses.Input} type='email' name='email' placeholder='ty@com' onChange={(event) => this.setState({email: event.target.value})} />
-                    <input className={cssClasses.Input} type='text' name='street' placeholder='Street' onChange={(event) => this.setState({address: {street: event.target.value, code: this.state.address.code}})} />
-                    <input className={cssClasses.Input} type='text' name='postal' placeholder='564655' onChange={(event) => this.setState({address: {street: this.state.address.street, code: event.target.value}})} />
+                    <Input inputtype="input" type='text' name='name' placeholder='You Name' onChange={(event) => this.setState({name: event.target.value})} />
+                    <Input inputtype="input" type='email' name='email' placeholder='Your email' onChange={(event) => this.setState({email: event.target.value})}/>
+                    <Input inputtype="input" type='text' name='street' placeholder='Delivery Street' onChange={(event) => this.setState({address: {street: event.target.value, code: this.state.address.code}})} />
+                    <Input inputtype="input" type='text' name='postal' placeholder='Delivery Postal Code' onChange={(event) => this.setState({address: {street: this.state.address.street, code: event.target.value}})} />
                     <Button buttonType='Success' >Submit</Button>
                 </form>
 

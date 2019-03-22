@@ -17,20 +17,25 @@ class Checkout extends Component {
     }
 
     componentDidMount(){
-        if(this.props.location.state){
+        console.log(this.props.location)
+        if(this.props.location.newburger){
             let listOfBurgers = this.state.burgers;
-            let newBurger = {...this.props.location.state, uniqueID: uniqueID()}
+            let newBurger = {...this.props.location.newburger, uniqueID: uniqueID()}
             listOfBurgers.push(newBurger)
             this.setState({burgers: listOfBurgers})
+        }
+        // if no new burger, return to '/'
+        else {
+            this.props.history.push({
+                pathname: '/'
+            })
         }
     }
 
     checkoutClicked = () => {
         this.props.history.push({
             pathname: this.props.match.path + '/contactdata',
-            state:{
-                burgers: this.state.burgers
-            }
+            burgers: this.state.burgers
         });
     }
 
