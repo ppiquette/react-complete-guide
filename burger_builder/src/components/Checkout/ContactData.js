@@ -19,6 +19,10 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your name'
                 },
+                validation: {
+                    required: true,
+                },
+                valid: false,
                 value: ''
             },
             email: {
@@ -27,6 +31,10 @@ class ContactData extends Component {
                     type: 'email',
                     placeholder: 'Your email'
                 },
+                validation: {
+                    required: true,
+                },
+                valid: false,
                 value: ''
             },
             street:  {
@@ -35,6 +43,11 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Street'
                 },
+                validation: {
+                    required: true,
+                lalid: false,
+                },
+                valid: false,
                 value: ''
             },
             code:  {
@@ -43,6 +56,10 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'ZipCode'
                 },
+                validation: {
+                    required: true,
+                },
+                valid: false,
                 value: ''
             },
             deliveryMethod:  {
@@ -57,6 +74,18 @@ class ContactData extends Component {
             }
         }
     }
+
+    checkValidity = (value, rules) => {
+        let isInvalid = false;
+
+        // Check if non empty entry (spaces are trimmed)
+        if(rules.required) {
+            isInvalid = isInvalid || (value.trim() !== "")
+        }
+
+        return !isInvalid
+    }
+
 
     componentDidMount(){
         this.setState({burgers: this.props.location.burgers})
@@ -106,6 +135,10 @@ class ContactData extends Component {
         const currentOrderFormKeyElement = {...currentOrderForm[key]}
         
         currentOrderFormKeyElement.value = event.target.value
+        currentOrderFormKeyElement.valid = this.checkValidity(event.target.value, currentOrderFormKeyElement.validation)
+
+        console.log(currentOrderFormKeyElement.valid)
+
         currentOrderForm[key] = currentOrderFormKeyElement
         this.setState({orderForm: currentOrderForm})
     }
@@ -126,6 +159,7 @@ class ContactData extends Component {
                     elementtype={value.elementtype} 
                     elementconfig={value.elementconfig} 
                     value={value.value}
+                    // valid={value.valid}
                     onChange={(event) => this.onChangeValueHandler(event, key)} />
             )
         }
@@ -136,7 +170,7 @@ class ContactData extends Component {
                 <h4>Enter your contact data</h4>
                 <form onSubmit={this.onSubmitHandler}>
                     {inputDisplay}
-                    <Button buttonType='Success' >Submit</Button>
+                    <Button buttonType='Success' >SubmitBazouelle</Button>
                 </form>
 
                 {spinner}
