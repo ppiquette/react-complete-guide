@@ -13,12 +13,17 @@
 
 .InputElement {
     outline: none;
-    border: 1Px solid #ccc;
+    border: 1px solid #ccc;
     background-color: white;
     font: inherit;
     padding: 6px 10px;
     width: 100%;
     box-sizing: border-box;
+}
+
+.InputNotValid {
+    border: 3px solid red;
+    background-color: lightgoldenrodyellow;
 }
 
 .InputElement:focus {

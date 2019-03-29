@@ -3,7 +3,7 @@ import Layout from './components/Layout';
 import BurgerBuilder from './components/Burger/BurgerBuilder'
 import {BrowserRouter} from 'react-router-dom'
 import {Route, Switch} from 'react-router'
-import Checkout from './components/checkout/Checkout';
+import Checkout from './components/Checkout/Checkout';
 import NoFound from './components/UI/NoFound';
 import Orders from './components/Order/Orders';
 

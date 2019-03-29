@@ -19,6 +19,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Your name'
                 },
+                touched: false,
                 validation: {
                     required: true,
                 },
@@ -31,6 +32,7 @@ class ContactData extends Component {
                     type: 'email',
                     placeholder: 'Your email'
                 },
+                touched: false,
                 validation: {
                     required: true,
                 },
@@ -43,6 +45,7 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'Street'
                 },
+                touched: false,
                 validation: {
                     required: true,
                 lalid: false,
@@ -56,20 +59,24 @@ class ContactData extends Component {
                     type: 'text',
                     placeholder: 'ZipCode'
                 },
+                touched: false,
                 validation: {
                     required: true,
+                    minLength: 6,
                 },
                 valid: false,
                 value: ''
             },
             deliveryMethod:  {
                 elementtype: 'select',
+                touched: true,
                 elementconfig: {
                     options: [
                         {value: 'fastest',  displayValue: 'Fastest'},
                         {value: 'cheapest',  displayValue: 'Cheapest'}
                     ]
                 },
+                valid: true,
                 value: 'fastest'
             }
         }
@@ -78,9 +85,17 @@ class ContactData extends Component {
     checkValidity = (value, rules) => {
         let isInvalid = false;
 
-        // Check if non empty entry (spaces are trimmed)
-        if(rules.required) {
-            isInvalid = isInvalid || (value.trim() !== "")
+        if (rules){
+            // Check if non empty entry (spaces are trimmed)
+            if(rules.required) {
+                isInvalid = isInvalid || (value.trim() === "")
+            }
+
+            if(rules.minLength) {
+                isInvalid = isInvalid || (value.length <= rules.minLength)
+            }
+
+            // add as many rules as necessery
         }
 
         return !isInvalid
@@ -136,11 +151,18 @@ class ContactData extends Component {
         
         currentOrderFormKeyElement.value = event.target.value
         currentOrderFormKeyElement.valid = this.checkValidity(event.target.value, currentOrderFormKeyElement.validation)
-
-        console.log(currentOrderFormKeyElement.valid)
+        currentOrderFormKeyElement.touched = true
 
         currentOrderForm[key] = currentOrderFormKeyElement
         this.setState({orderForm: currentOrderForm})
+    }
+
+    checkIfFormValid = () => {
+        let invalid = false;
+        for(const value of Object.values(this.state.orderForm)){
+            invalid = invalid || !value.valid
+        }
+        return !invalid
     }
 
     render() {
@@ -159,7 +181,8 @@ class ContactData extends Component {
                     elementtype={value.elementtype} 
                     elementconfig={value.elementconfig} 
                     value={value.value}
-                    // valid={value.valid}
+                    touched={value.touched}
+                    invalid={!value.valid}
                     onChange={(event) => this.onChangeValueHandler(event, key)} />
             )
         }
@@ -170,7 +193,7 @@ class ContactData extends Component {
                 <h4>Enter your contact data</h4>
                 <form onSubmit={this.onSubmitHandler}>
                     {inputDisplay}
-                    <Button buttonType='Success' >SubmitBazouelle</Button>
+                    <Button disabled={!this.checkIfFormValid()} buttonType='Success'>Submit</Button>
                 </form>
 
                 {spinner}
