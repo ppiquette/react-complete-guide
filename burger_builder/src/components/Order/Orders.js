@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Axios from '../../axios-orders'
-import Order from '../../components/Order/Order';
+import Order from './Order';
 import {uniqueID} from '../../util/uniqueID'
 
 class Orders extends Component {

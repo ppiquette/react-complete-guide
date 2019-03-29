@@ -1,12 +1,12 @@
 import React , { Component } from 'react'
 import Aux from '../../hoc/Aux'
-import Burger from '../../components/Burger/Burger'
-import BuildControls from '../../components/Burger/BuildControls/BuildControls'
-import Modal from '../../components/UI/Modal/Modal'
-import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
+import Burger from './Burger'
+import BuildControls from './BuildControls'
+import Modal from '../UI/Modal'
+import OrderSummary from './OrderSummary'
 import Axios from '../../axios-orders';
-import Spinner from '../../components/UI/Spinner/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Spinner from '../UI/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler';
 import {withRouter} from 'react-router-dom'
 
 const INGREDIENTS_PRICE = {

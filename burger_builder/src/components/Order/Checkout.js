@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import Spinner from '../../components/UI/Spinner/Spinner';
+import CheckoutSummary from './CheckoutSummary';
+import Spinner from '../UI/Spinner';
 import {Route} from 'react-router-dom'
-import ContactData from './ContactData/ContactData';
+import ContactData from './ContactData';
 import {uniqueID} from '../../util/uniqueID'
 
 class Checkout extends Component {

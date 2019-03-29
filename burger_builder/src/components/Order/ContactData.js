@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Button from '../../../components/UI/Button/Button';
+import Button from '../UI/Button';
 import cssClasses from './ContactData.module.css'
-import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
-import Axios from '../../../axios-orders';
-import Spinner from '../../../components/UI/Spinner/Spinner';
+import withErrorHandler from '../../hoc/withErrorHandler';
+import Axios from '../../axios-orders';
+import Spinner from '../UI/Spinner';
 import {withRouter} from 'react-router-dom'
-import Input from '../../../components/UI/Input/Input'
+import Input from '../UI/Input'
 
 
 class ContactData extends Component {
