@@ -8,7 +8,7 @@
 // 
 
 const redux = require('redux');
-const createStore = redux.createStore;
+// const createStore = redux.createStore;
 
 const initialState = {
     counter: 0,
@@ -34,9 +34,13 @@ const rootReducer = (state = initialState, action) => {
 
 // Create store
 console.log("Create Store");
-const store = createStore(rootReducer);
+const store = redux.createStore(rootReducer);
 console.log(store);
 console.log(store.getState());
+
+store.subscribe(() => {
+    console.log("[subscribe]", store.getState())
+})
 
 // Dispatching actions
 console.log("Dispatch some actions");
