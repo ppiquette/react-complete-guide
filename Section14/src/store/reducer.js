@@ -1,20 +1,42 @@
 
-import { CHANGE_BY } from './actions'
+import { CHANGE_BY, STORE_COUNTER, REMOVE_COUNTER } from './actions'
 
 const initState = {
     counter: 0,
+    results: [],
 }
 
-const reducer = (state=initState, action) => {
+const counterReducer = (state=initState, action) => {
     switch(action.type){
         case CHANGE_BY:
-            return {
-                ...state,
-                counter: state.counter + action.by,
-            }
+            return state + action.by
         default:
             return state;
     }
+}
+
+const resultsReducer = (state=initState, action) => {
+    let newState = [...state]
+    
+    switch(action.type){
+        case STORE_COUNTER:
+            newState.push(action.counter) 
+            return newState
+
+        case REMOVE_COUNTER:
+            newState.splice(action.index, 1); 
+            return newState
+
+        default:
+            return state;
+    }
+}
+
+const reducer = (state=initState, action) => {
+    return {
+        counter: counterReducer(state.counter, action),
+        results: resultsReducer(state.results, action),
+    };
 }
 
 export default reducer
