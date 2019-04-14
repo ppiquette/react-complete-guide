@@ -24,7 +24,8 @@ const resultsReducer = (state=initState, action) => {
             return newState
 
         case REMOVE_COUNTER:
-            newState.splice(action.index, 1); 
+            // newState.splice(action.index, 1); or doing the following...
+            newState = newState.filter((item, index) => {return (index !== action.index ? true : false)})
             return newState
 
         default:
