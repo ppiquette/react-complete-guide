@@ -6,8 +6,11 @@ import Modal from '../UI/Modal'
 import OrderSummary from './OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../UI/Spinner';
-import withErrorHandler from '../../hoc/withErrorHandler';
 import {withRouter} from 'react-router-dom'
+import { setIngredients } from '../../actions';
+import { connect } from 'react-redux';
+
+
 
 const INGREDIENTS_PRICE = {
     meat: 1.3,
@@ -21,31 +24,30 @@ const INGREDIENTS_PRICE = {
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients: null,
         appstate: "builder",
     }
 
     componentDidMount(){
         Axios.get('/ingredients.json')
         .then(response => {
-            this.setState({ingredients: response.data})
+            this.props.setIngredients(response.data);
         })
     }
 
     computePrice = () => {
         let price = 4.0;
-        if(this.state.ingredients){
-            for(let key in this.state.ingredients){
-                price += INGREDIENTS_PRICE[key] * this.state.ingredients[key];
+        if(this.props.ingredients){
+            for(let key in this.props.ingredients){
+                price += INGREDIENTS_PRICE[key] * this.props.ingredients[key];
             }
         }
         return price
     } 
 
     ingredientChange = (type, amount) => {
-        let ingredientsCopy = {...this.state.ingredients};
+        let ingredientsCopy = {...this.props.ingredients};
         ingredientsCopy[type] += amount;
-        this.setState({ingredients: ingredientsCopy});
+        this.props.setIngredients(ingredientsCopy);
     }
  
     addIngredientHandler = (type) => {
@@ -53,7 +55,7 @@ class BurgerBuilder extends Component {
     }
 
     removeIngredientHandler = (type) => {
-        if(this.state.ingredients[type] > 0 ) {
+        if(this.props.ingredients[type] > 0 ) {
             this.ingredientChange (type, -1);
         }
         console.log(this.props)
@@ -71,19 +73,19 @@ class BurgerBuilder extends Component {
         this.props.history.push({
             pathname: "/checkout",
             newburger:{
-                ingredients: this.state.ingredients
+                ingredients: this.props.ingredients
             }
         });
     }
     
     render(){
-        const disabledLess = {...this.state.ingredients};
+        const disabledLess = {...this.props.ingredients};
         for (let key in disabledLess){
             disabledLess[key] = (disabledLess[key] <= 0);
         }
 
         let enableOrderNow = 0;
-        const ingredients = {...this.state.ingredients};
+        const ingredients = {...this.props.ingredients};
         for (let key in ingredients){
             enableOrderNow += ingredients[key];
         }
@@ -92,30 +94,27 @@ class BurgerBuilder extends Component {
  
         let orderSummary = (
             <OrderSummary 
-                ingredients={{...this.state.ingredients}}
                 cancelPurchase={this.cancelInSummary}
                 continuePurchase={this.summaryToCheckout}
                 price={totalPrice}
             />
         )
  
-        let burgerElements = (
-            <>
-                <Burger ingredients={this.state.ingredients}/>
-                <BuildControls 
-                    ingredientRemoved={this.removeIngredientHandler}
-                    ingredientAdded={this.addIngredientHandler}
-                    disabledLess={disabledLess}
-                    enableOrderNow={enableOrderNow}
-                    price={totalPrice}
-                    toSummary={this.inSummary}
-                />
-            </>
-        )
- 
-        if(this.state.ingredients === null){
+        let burgerElements =  ( <Spinner/> )
+
+        if(this.props.ingredients != null){
             burgerElements = (
-                <Spinner/>
+                <>
+                    <Burger />
+                    <BuildControls 
+                        ingredientRemoved={this.removeIngredientHandler}
+                        ingredientAdded={this.addIngredientHandler}
+                        disabledLess={disabledLess}
+                        enableOrderNow={enableOrderNow}
+                        price={totalPrice}
+                        toSummary={this.inSummary}
+                    />
+                </>
             )
         }
 
@@ -138,4 +137,23 @@ class BurgerBuilder extends Component {
 
 }
 
-export default withErrorHandler(withRouter(BurgerBuilder), Axios);
+
+// When receiving a new state
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.ingredients,
+    }
+}
+  
+// To change the state
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setIngredients: (ingredients) => {dispatch(setIngredients(ingredients))},
+    }
+}
+
+// Need to wrap withRouter around redux (i.e. connect) otherwise get a warning
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+ )(BurgerBuilder))
