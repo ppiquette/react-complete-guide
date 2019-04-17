@@ -1,0 +1,4 @@
+
+export const CHANGE_BY = 'CHANGE_BY'
+export const STORE_COUNTER = 'STORE_COUNTER'
+export const REMOVE_COUNTER = 'REMOVE_COUNTER'
