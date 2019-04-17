@@ -6,6 +6,7 @@ import Axios from '../../axios-orders';
 import Spinner from '../UI/Spinner';
 import {withRouter} from 'react-router-dom'
 import Input from '../UI/Input'
+import {capFirstLetter} from '../../util/capFirstLetter'
 
 
 class ContactData extends Component {
@@ -139,10 +140,6 @@ class ContactData extends Component {
             });
     }
 
-    capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
     onChangeValueHandler = (event, key) => {
         // The following is done to create a new element that does refer to the original 
         // state. The ... operator doesn't deep copy the object, it only copies the first level.
@@ -177,7 +174,7 @@ class ContactData extends Component {
             inputDisplay.push(
                 <Input 
                     key={key}
-                    label={this.capitalizeFirstLetter(key)}
+                    label={capFirstLetter(key)}
                     elementtype={value.elementtype} 
                     elementconfig={value.elementconfig} 
                     value={value.value}
