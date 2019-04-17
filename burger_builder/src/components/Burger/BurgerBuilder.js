@@ -7,8 +7,10 @@ import OrderSummary from './OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../UI/Spinner';
 import {withRouter} from 'react-router-dom'
-import { setIngredients } from '../../actions';
+import { setIngredients } from '../../store/actions';
 import { connect } from 'react-redux';
+import axiosInstance from '../../axios-orders';
+import withErrorHandler from '../../hoc/withErrorHandler';
 
 
 
@@ -72,6 +74,8 @@ class BurgerBuilder extends Component {
     summaryToCheckout = () => { 
         this.props.history.push({
             pathname: "/checkout",
+            // I keep passing the new burger that way even if redux is now used in the app. Checkout.js 
+            // could have also took a snapshot of the current state and add it in the list of burgers.
             newburger:{
                 ingredients: this.props.ingredients
             }
@@ -156,4 +160,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
- )(BurgerBuilder))
+ )(withErrorHandler(BurgerBuilder, axiosInstance)))

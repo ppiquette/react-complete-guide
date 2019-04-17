@@ -61,7 +61,7 @@ const withErrorHandler = (WrappedComponent, axiosInstance) => {
                     >
                         {message}
                     </Modal>
-                    <WrappedComponent/>
+                    <WrappedComponent {...this.props}/>
                 </>
             );
         }

@@ -9,7 +9,7 @@ import Orders from './components/Order/Orders';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import appReducer from './reducers';
+import appReducer from './store/reducers';
 
 const store = createStore(appReducer)
 
