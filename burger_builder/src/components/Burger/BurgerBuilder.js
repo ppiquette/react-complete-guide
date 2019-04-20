@@ -145,7 +145,7 @@ class BurgerBuilder extends Component {
 // When receiving a new state
 const mapStateToProps = (state) => {
     return {
-        ingredients: state.ingredients,
+        ingredients: state.app.ingredients,
     }
 }
   

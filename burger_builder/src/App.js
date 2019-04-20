@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+
+import { Provider } from 'react-redux'
+import { createStore, /*applyMiddleware,*/ compose, combineReducers } from 'redux'
+import appReducer from './store/reducers';
+import { reducer as formReducer } from 'redux-form'
+
 import Layout from './components/Layout';
 import BurgerBuilder from './components/Burger/BurgerBuilder'
 import {BrowserRouter} from 'react-router-dom'
@@ -6,10 +12,6 @@ import {Route, Switch} from 'react-router'
 import Checkout from './components/Checkout/Checkout';
 import NoFound from './components/UI/NoFound';
 import Orders from './components/Order/Orders';
-
-import { Provider } from 'react-redux'
-import { createStore, /*applyMiddleware,*/ compose } from 'redux'
-import appReducer from './store/reducers';
 import Auth from './components/auth/Auth';
 
 
@@ -17,7 +19,12 @@ import Auth from './components/auth/Auth';
 // seems to be a simplify version of extension.
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(appReducer, composeEnhancers( /*applyMiddleware(...middleware)*/ ));
+const rootReducer = combineReducers({
+    app: appReducer,
+    form: formReducer,
+  })
+
+const store = createStore(rootReducer, composeEnhancers( /*applyMiddleware(...middleware)*/ ));
 
 class App extends Component {
   render() {

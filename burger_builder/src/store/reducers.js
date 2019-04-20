@@ -5,13 +5,13 @@ import {
 
 
 
-const initialState = {
+const initialAppState = {
     ingredients: {
     },
 }
 
 
-function ingredientsReducer(state = initialState.ingredients, action){
+function ingredientsReducer(state = initialAppState.ingredients, action){
     switch (action.type){
         case SET_INGREDIENTS:
             return action.ingredients;
