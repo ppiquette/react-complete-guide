@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 
-import { Provider } from 'react-redux'
-import { createStore, /*applyMiddleware,*/ compose, combineReducers } from 'redux'
-import appReducer from './store/reducers';
+import { Provider,  } from 'react-redux'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import appReducer from './store/reducers/reducers';
 import { reducer as formReducer } from 'redux-form'
+
+// Middleware that allows asynchronous action
+import ReduxThunk from 'redux-thunk'
 
 import Layout from './components/Layout';
 import BurgerBuilder from './components/Burger/BurgerBuilder'
@@ -15,6 +18,20 @@ import Orders from './components/Order/Orders';
 import Auth from './components/auth/Auth';
 
 
+// Homemade middleware
+const logger = (store) => {
+    return((next) => {
+        return ((action) => {
+            // console.log('[MIDDLEWARE action] ', action);
+            const result = next(action);
+            // console.log('[MIDDLEWARE state] ', store.getState());
+            return result;
+        })
+    })
+}
+
+
+
 // This is to use the redux extension https://github.com/zalmoxisus/redux-devtools-extension. Middleware 
 // seems to be a simplify version of extension.
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -24,7 +41,7 @@ const rootReducer = combineReducers({
     form: formReducer,
   })
 
-const store = createStore(rootReducer, composeEnhancers( /*applyMiddleware(...middleware)*/ ));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(logger, ReduxThunk)));
 
 class App extends Component {
   render() {
