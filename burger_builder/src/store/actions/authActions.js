@@ -64,12 +64,10 @@ export const auth = (email, password, signup) => {
             returnSecureToken: true,
         })
         .then(response => {
-            console.log(response);
             dispatch(checkAuthTimeout(response.data.expiresIn * 1000))
             dispatch(authSuccess(response.data));
         })
         .catch(error => {
-            console.log(error);
             dispatch(authFail(error));
         }) 
     }
