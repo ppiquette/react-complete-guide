@@ -7,7 +7,7 @@ import { logOut } from '../../store/actions/authActions';
 class NavigationItems extends Component {
 
     onLogout = () => {
-        this.props.logOut();
+        this.props.logout();
     }
 
 
@@ -17,7 +17,7 @@ class NavigationItems extends Component {
                 <NavigationItem link="/">Burger Builder</NavigationItem>
                 <NavigationItem link="/checkout">Checkout</NavigationItem>
                 <NavigationItem link="/orders">Orders</NavigationItem>
-                <NavigationItem link="/auth" onClick={() => this.onLogout()}>{this.props.isAuthenticated ? "Logout" : "Authenticate"}</NavigationItem>
+                <NavigationItem link="/auth" onClick={this.onLogout}>{this.props.isAuthenticated ? "Logout" : "Authenticate"}</NavigationItem>
             </ul>
         );
     }
