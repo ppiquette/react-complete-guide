@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import Axios from '../../axios-orders'
 import Order from './Order';
 import {uniqueID} from '../../util/uniqueID'
+import axiosInstance from '../../axios-orders';
+import withErrorHandler from '../../hoc/withErrorHandler'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
+
 
 class Orders extends Component {
     state = {
@@ -10,7 +15,7 @@ class Orders extends Component {
 
     componentDidMount() {
         // .json is because we use Google Firebase
-        Axios.get('/orders.json')
+        Axios.get('/orders.json?auth=' + this.props.token)
             .then(response => {
                 this.setState({orders: Object.values(response.data)})
             })
@@ -37,4 +42,22 @@ class Orders extends Component {
     }
 }
 
-export default Orders;
+
+
+// When receiving a new state
+const mapStateToProps = (state) => {
+    return {
+        token: state.app.auth.token,
+    }
+}
+  
+// To change the state
+const mapDispatchToProps = (dispatch) => {
+    return {
+    }
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+ )(withErrorHandler(Orders, axiosInstance)))

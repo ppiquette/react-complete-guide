@@ -19,13 +19,12 @@ const classes = {
 class Auth extends Component {
 
     state = {
-        signup: true,
+        signup: false,
     } 
 
     submit = (values) => {
         console.log(values);
         this.props.onAuth(values.email, values.password, this.state.signup);
-        
     }
 
     onSwitch = () => {
@@ -46,7 +45,7 @@ class Auth extends Component {
                         onClick={this.onSwitch} 
                         buttonType="Danger">
                         
-                        { this.state.signup ? "sign-up" : "sign-in" }
+                        Here to { this.state.signup ? "sign-in" : "sign-up" }
                     </Button>
                 </div>
                 {this.props.auth && (<p style={classes.center}>{this.props.auth.error}</p>)}

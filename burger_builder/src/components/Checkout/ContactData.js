@@ -7,6 +7,8 @@ import Spinner from '../UI/Spinner';
 import {withRouter} from 'react-router-dom'
 import Input from '../UI/Input'
 import {capFirstLetter} from '../../util/capFirstLetter'
+import { connect } from 'react-redux';
+import axiosInstance from '../../axios-orders';
 
 
 class ContactData extends Component {
@@ -130,7 +132,7 @@ class ContactData extends Component {
         order.customer = customer
         
         // .json is because we use Google Firebase
-        Axios.post('/orders.json', order)
+        Axios.post('/orders.json?auth=' + this.props.token, order)
             .then(response => {
                 this.setState({summittingPurchase: false});
                 this.props.history.replace('/');
@@ -199,4 +201,20 @@ class ContactData extends Component {
     }
 }
 
-export default withErrorHandler(withRouter(ContactData), Axios);
+// When receiving a new state
+const mapStateToProps = (state) => {
+    return {
+        token: state.app.auth.token,
+    }
+}
+  
+// To change the state
+const mapDispatchToProps = (dispatch) => {
+    return {
+    }
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+ )(withErrorHandler(ContactData, axiosInstance)))

@@ -12,6 +12,7 @@ class NavigationItem extends Component {
         return (
             <li className={cssClasses.NavigationItem}>
                 <Link 
+                    onClick={this.props.onClick}
                     to={this.props.link}
                     className={active ? cssClasses.active : null}
                 >

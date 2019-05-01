@@ -1,16 +1,46 @@
-import React from 'react';
+import React, {Component} from 'react';
 import NavigationItem from './NavigationItem'
 import cssClasses from './NavigationItems.module.css'
+import { connect } from 'react-redux';
+import { logOut } from '../../store/actions/authActions';
 
-const NavigationItems = (props) => {
-    return (
-        <ul className={cssClasses.NavigationItems}>
-            <NavigationItem link="/">Burger Builder</NavigationItem>
-            <NavigationItem link="/checkout">Checkout</NavigationItem>
-            <NavigationItem link="/orders">Orders</NavigationItem>
-            <NavigationItem link="/auth">Authenticate</NavigationItem>
-        </ul>
-    );
+class NavigationItems extends Component {
+
+    onLogout = () => {
+        this.props.logOut();
+    }
+
+
+    render() {
+        return (
+            <ul className={cssClasses.NavigationItems}>
+                <NavigationItem link="/">Burger Builder</NavigationItem>
+                <NavigationItem link="/checkout">Checkout</NavigationItem>
+                <NavigationItem link="/orders">Orders</NavigationItem>
+                <NavigationItem link="/auth" onClick={() => this.onLogout()}>{this.props.isAuthenticated ? "Logout" : "Authenticate"}</NavigationItem>
+            </ul>
+        );
+    }
 };
 
-export default NavigationItems;
+
+// When receiving a new state
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.app.auth.token !== null,
+    }
+}
+  
+// To change the state
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => {dispatch(logOut())}
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+ )(NavigationItems)
+
+ 
