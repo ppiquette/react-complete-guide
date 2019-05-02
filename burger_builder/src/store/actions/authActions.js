@@ -13,6 +13,10 @@ export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 // 
 
 export function logOut() {
+    localStorage.removeItem('idToken');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('localId')
+    
     return {
         type: AUTH_LOGOUT,
     }
@@ -32,20 +36,18 @@ export function authStart() {
     }
 }
 
-export function authSuccess(data) {
+export function authSuccess(localId, idToken) {
     return {
         type: AUTH_SUCCESS,
-        data: data,
-        localId: data.localId,
-        idToken: data.idToken,
+        localId: localId,
+        idToken: idToken,
     }
 }
 
-export function authFail(data) {
+export function authFail(message) {
     return {
         type: AUTH_FAIL,
-        data: data,
-        message: data.response.data.error.message
+        message: message
     }
 }
 
@@ -64,11 +66,33 @@ export const auth = (email, password, signup) => {
             returnSecureToken: true,
         })
         .then(response => {
-            dispatch(checkAuthTimeout(response.data.expiresIn * 1000))
-            dispatch(authSuccess(response.data));
+            localStorage.setItem('idToken', response.data.idToken);
+            const expirationDate = new Date(new Date().getTime() + (response.data.expiresIn * 1000));
+            localStorage.setItem("expirationDate", expirationDate);
+            localStorage.setItem("localID", response.data.localId);
+
+            dispatch(checkAuthTimeout(response.data.expiresIn * 1000));
+            dispatch(authSuccess(response.data.localId, response.data.idToken));
         })
         .catch(error => {
-            dispatch(authFail(error));
+            dispatch(authFail(error.response.data.error.message));
         }) 
+    }
+}
+
+export const checkAuthentication = () => {
+    return dispatch => {
+        const idToken = localStorage.getItem('idToken');
+        const expirationDate = new Date(localStorage.getItem('expirationDate')).getTime();
+        const localId = localStorage.getItem('localId');
+
+        const currentTime = new Date().getTime();
+        if(currentTime < expirationDate){
+            dispatch(authSuccess(localId, idToken));
+            dispatch(checkAuthTimeout(expirationDate - currentTime));
+        }
+        else {
+            dispatch(logOut());
+        }
     }
 }

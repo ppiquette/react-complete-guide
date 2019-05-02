@@ -11,7 +11,7 @@ import { setIngredients } from '../../store/actions/ingredientsActions';
 import { connect } from 'react-redux';
 import axiosInstance from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler';
-
+import {checkAuthentication} from '../../store/actions/authActions'
 
 
 const INGREDIENTS_PRICE = {
@@ -34,6 +34,8 @@ class BurgerBuilder extends Component {
         .then(response => {
             this.props.setIngredients(response.data);
         })
+
+        this.props.checkAuth()
     }
 
     computePrice = () => {
@@ -82,8 +84,9 @@ class BurgerBuilder extends Component {
         });
     }
     
-
     goToAuth = () => { 
+        // I should send the burger that is currently in construction. Since I didn't connect the checkout component to the 
+        // redux store, I would need to propagate the  burger in construction to redirect the user to /checkout. Fuck it.
         this.props.history.push({
             pathname: "/auth",
         });
@@ -163,6 +166,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setIngredients: (ingredients) => {dispatch(setIngredients(ingredients))},
+        checkAuth: () => {dispatch(checkAuthentication())}
     }
 }
 
