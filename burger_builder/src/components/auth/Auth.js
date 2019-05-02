@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import AuthForm from './AuthForm';
 import { auth } from '../../store/actions/authActions';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import Button from '../UI/Button';
 import Spinner from '../UI/Spinner'
 
@@ -39,6 +39,7 @@ class Auth extends Component {
 
         return (
             <>
+                {this.props.isAuthenticated ? <Redirect to="/" /> : null}
                 <AuthForm onSubmit={this.submit} />
                 <div style={classes.center}>
                     <Button 
@@ -59,6 +60,7 @@ class Auth extends Component {
 const mapStateToProps = (state) => {
     return {
         auth: state.app.auth,
+        isAuthenticated: state.app.auth.token !== null,
     }
 }
   

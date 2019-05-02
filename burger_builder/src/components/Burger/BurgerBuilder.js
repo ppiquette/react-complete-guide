@@ -6,7 +6,7 @@ import Modal from '../UI/Modal'
 import OrderSummary from './OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../UI/Spinner';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import { setIngredients } from '../../store/actions/ingredientsActions';
 import { connect } from 'react-redux';
 import axiosInstance from '../../axios-orders';
@@ -82,6 +82,13 @@ class BurgerBuilder extends Component {
         });
     }
     
+
+    goToAuth = () => { 
+        this.props.history.push({
+            pathname: "/auth",
+        });
+    }
+
     render(){
         const disabledLess = {...this.props.ingredients};
         for (let key in disabledLess){
@@ -116,7 +123,8 @@ class BurgerBuilder extends Component {
                         disabledLess={disabledLess}
                         enableOrderNow={enableOrderNow}
                         price={totalPrice}
-                        toSummary={this.inSummary}
+                        toSummary={this.props.isAuthenticated ? this.inSummary : this.goToAuth}
+                        isAuthenticated={this.props.isAuthenticated}
                     />
                 </>
             )
@@ -146,6 +154,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = (state) => {
     return {
         ingredients: state.app.ingredients,
+        isAuthenticated: state.app.auth.token !== null,
+
     }
 }
   

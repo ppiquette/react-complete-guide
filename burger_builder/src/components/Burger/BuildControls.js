@@ -29,7 +29,9 @@ const buildControls = (props) => {
             <button 
                 className={cssButtonClasses.OrderButton} 
                 disabled={!props.enableOrderNow} 
-                onClick={props.toSummary}>ADD BURGER</button>
+                onClick={props.toSummary}>
+                    {props.isAuthenticated ? "ADD BURGER" : "LOGIN TO ADD BURGER"}
+                </button>
 
         </div>
     );

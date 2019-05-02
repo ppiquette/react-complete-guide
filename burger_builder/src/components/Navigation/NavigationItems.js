@@ -16,8 +16,13 @@ class NavigationItems extends Component {
             <ul className={cssClasses.NavigationItems}>
                 <NavigationItem link="/">Burger Builder</NavigationItem>
                 <NavigationItem link="/checkout">Checkout</NavigationItem>
-                <NavigationItem link="/orders">Orders</NavigationItem>
-                <NavigationItem link="/auth" onClick={this.onLogout}>{this.props.isAuthenticated ? "Logout" : "Authenticate"}</NavigationItem>
+                
+                {this.props.isAuthenticated ? 
+                    <>
+                        <NavigationItem link="/orders">Orders</NavigationItem> 
+                        <NavigationItem link="/logout">Logout</NavigationItem> 
+                    </>: 
+                    <NavigationItem link="/auth">Authenticate</NavigationItem> } 
             </ul>
         );
     }

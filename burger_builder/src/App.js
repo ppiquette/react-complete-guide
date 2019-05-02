@@ -16,6 +16,7 @@ import Checkout from './components/Checkout/Checkout';
 import NoFound from './components/UI/NoFound';
 import Orders from './components/Order/Orders';
 import Auth from './components/auth/Auth';
+import logout from './components/auth/logout';
 
 
 // Homemade middleware
@@ -54,6 +55,7 @@ class App extends Component {
                             <Route path="/checkout" component={Checkout} />
                             <Route path="/orders" component={Orders} />
                             <Route exact path="/" component={BurgerBuilder} />
+                            <Route path="/logout" component={logout} />
                             <Route path="/auth" component={Auth} />
                             <Route component={NoFound} />
                         </Switch>
