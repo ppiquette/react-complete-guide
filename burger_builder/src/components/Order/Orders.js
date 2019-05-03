@@ -29,7 +29,7 @@ class Orders extends Component {
         if(this.state.orders){
             display = this.state.orders.map((item) => { 
                 return(
-                    <Order key={uniqueID()} item={item}></Order>
+                    this.props.userId == item.customer.userId ? <Order key={uniqueID()} item={item}></Order> : null
                 )
             })
         }
@@ -48,6 +48,7 @@ class Orders extends Component {
 const mapStateToProps = (state) => {
     return {
         token: state.app.auth.token,
+        userId: state.app.auth.userId,
     }
 }
   

@@ -129,6 +129,7 @@ class ContactData extends Component {
                 customer[key] = value.value
             }
         }
+        customer["userId"] = this.props.userId
         order.customer = customer
         
         // .json is because we use Google Firebase
@@ -205,6 +206,7 @@ class ContactData extends Component {
 const mapStateToProps = (state) => {
     return {
         token: state.app.auth.token,
+        userId: state.app.auth.userId,
     }
 }
   

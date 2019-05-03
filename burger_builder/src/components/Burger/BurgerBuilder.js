@@ -6,7 +6,7 @@ import Modal from '../UI/Modal'
 import OrderSummary from './OrderSummary'
 import Axios from '../../axios-orders';
 import Spinner from '../UI/Spinner';
-import { withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { setIngredients } from '../../store/actions/ingredientsActions';
 import { connect } from 'react-redux';
 import axiosInstance from '../../axios-orders';
